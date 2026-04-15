@@ -146,7 +146,6 @@ struct OrderFormView: View {
                 Text(validationMessage)
             }
         }
-        .tint(.accentColor)
         .onAppear { prefillForm() }
     }
 

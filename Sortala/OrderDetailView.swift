@@ -85,7 +85,7 @@ struct OrderDetailView: View {
                         Image(systemName: order.orderSource.icon)
                         Text(order.orderSource.rawValue)
                     }
-                    .foregroundStyle(order.orderSource.color)
+                    .foregroundStyle(.secondary)
                 }
 
                 HStack {
@@ -129,22 +129,18 @@ struct OrderDetailView: View {
                 Button(role: .destructive) {
                     showDeleteConfirmation = true
                 } label: {
-                    HStack {
-                        Spacer()
-                        Label("Hapus Pesanan", systemImage: "trash")
-                        Spacer()
-                    }
+                    Text("Hapus Pesanan")
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
             }
         }
         .listStyle(.insetGrouped)
-        .tint(.accentColor)
         .navigationTitle(
             order.customerName.isEmpty ? "Detail Pesanan" : order.customerName
         )
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button("Edit") { showEditSheet = true }
             }
         }

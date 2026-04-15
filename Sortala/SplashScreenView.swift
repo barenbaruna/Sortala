@@ -38,7 +38,9 @@ struct SplashScreenView: View {
 
                     VStack(spacing: 6) {
                         Text("Sortala")
-                            .font(.system(size: 34, weight: .bold, design: .rounded))
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .fontDesign(.rounded)
 
                         Text("Kelola pre-order, tanpa ribet")
                             .font(.subheadline)

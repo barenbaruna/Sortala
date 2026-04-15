@@ -91,7 +91,7 @@ struct HomeView: View {
                 prompt: "Cari nama atau produk…"
             )
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
+                ToolbarItem(placement: .topBarTrailing) {
                     Button { showAddOrder = true } label: {
                         Image(systemName: "plus")
                     }
@@ -100,14 +100,10 @@ struct HomeView: View {
             .sheet(isPresented: $showAddOrder) {
                 OrderFormView()
             }
-            .confirmationDialog(
-                "Hapus Pesanan?",
-                isPresented: Binding(
-                    get: { orderToDelete != nil },
-                    set: { if !$0 { orderToDelete = nil } }
-                ),
-                titleVisibility: .visible
-            ) {
+            .alert("Hapus Pesanan?", isPresented: Binding(
+                get: { orderToDelete != nil },
+                set: { if !$0 { orderToDelete = nil } }
+            )) {
                 Button("Hapus", role: .destructive) {
                     if let order = orderToDelete {
                         modelContext.delete(order)
@@ -119,7 +115,6 @@ struct HomeView: View {
                 Text("Pesanan \(orderToDelete?.customerName ?? "") akan dihapus permanen.")
             }
         }
-        .tint(.accentColor)
     }
 
     // MARK: - Subviews
@@ -142,14 +137,12 @@ struct HomeView: View {
     }
 
     private var orderCountSummary: some View {
-        HStack(spacing: 0) {
+        HStack {
+            // Neutral count — no colored status text
             if selectedFilter == .semua {
-                // Status breakdown with colored counts
-                statusCount(.baru)
-                dot
-                statusCount(.diproses)
-                dot
-                statusCount(.selesai)
+                Text("\(allOrders.count) pesanan")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
             } else {
                 Text("\(filteredOrders.count) pesanan")
                     .font(.footnote)
@@ -158,7 +151,7 @@ struct HomeView: View {
 
             Spacer()
 
-            // Overdue warning — critical for PO management
+            // Overdue = ONLY non-neutral color (red = danger)
             let overdueCount = allOrders.filter(\.isOverdue).count
             if overdueCount > 0 {
                 HStack(spacing: 3) {
@@ -170,19 +163,6 @@ struct HomeView: View {
                 .foregroundStyle(.red)
             }
         }
-    }
-
-    private func statusCount(_ status: OrderStatus) -> some View {
-        let count = allOrders.filter { $0.status == status }.count
-        return Text("\(count) \(status.rawValue)")
-            .font(.footnote)
-            .foregroundStyle(count > 0 ? AnyShapeStyle(status.foregroundColor) : AnyShapeStyle(.tertiary))
-    }
-
-    private var dot: some View {
-        Text(" · ")
-            .font(.footnote)
-            .foregroundStyle(.tertiary)
     }
 
     private var orderSections: some View {
@@ -213,11 +193,16 @@ struct HomeView: View {
     @ViewBuilder
     private var emptyStateView: some View {
         if allOrders.isEmpty {
-            ContentUnavailableView(
-                "Belum Ada Pesanan",
-                systemImage: "tray",
-                description: Text("Tap + untuk menambahkan pesanan pertama")
-            )
+            ContentUnavailableView {
+                    Label("Belum Ada Pesanan", systemImage: "tray")
+                } description: {
+                    Text("Mulai catat pesanan pertama kamu")
+                } actions: {
+                    Button("Tambah Pesanan") {
+                        showAddOrder = true
+                    }
+                    .buttonStyle(.borderedProminent)
+                }
         } else if filteredOrders.isEmpty && !searchText.isEmpty {
             ContentUnavailableView.search(text: searchText)
         } else if filteredOrders.isEmpty {
@@ -233,7 +218,6 @@ struct HomeView: View {
 
     private func sectionHeaderColor(for date: Date) -> Color {
         let calendar = Calendar.current
-        if calendar.isDateInToday(date) { return .accentColor }
         if date < calendar.startOfDay(for: Date()) { return .red }
         return .primary
     }
@@ -252,16 +236,21 @@ struct OrderRowView: View {
                     .font(.headline)
                 Spacer()
                 if showStatus {
-                    Text(order.status.rawValue)
-                        .font(.subheadline)
-                        .foregroundStyle(order.status.foregroundColor)
+                    HStack(spacing: 4) {
+                        Circle()
+                            .fill(order.status.foregroundColor)
+                            .frame(width: 6, height: 6)
+                        Text(order.status.rawValue)
+                            .font(.subheadline)
+                            .foregroundStyle(.secondary)
+                    }
                 }
             }
 
             HStack(spacing: 4) {
                 Image(systemName: order.orderSource.icon)
                     .font(.caption2)
-                    .foregroundStyle(order.orderSource.color)
+                    .foregroundStyle(.secondary)
                 Text(order.itemsSummary)
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
