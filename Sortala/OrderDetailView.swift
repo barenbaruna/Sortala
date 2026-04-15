@@ -25,7 +25,7 @@ struct OrderDetailView: View {
                     "Nama",
                     value: order.customerName.isEmpty ? "-" : order.customerName
                 )
-
+                .autocorrectionDisabled()
                 if !order.whatsappNumber.isEmpty {
                     HStack {
                         Text("WhatsApp")
@@ -34,11 +34,10 @@ struct OrderDetailView: View {
                             Link(destination: url) {
                                 HStack(spacing: 4) {
                                     Text(order.whatsappNumber)
-                                        .foregroundStyle(.blue)
                                     Image(systemName: "arrow.up.right")
                                         .font(.caption)
-                                        .foregroundStyle(.blue)
                                 }
+                                .foregroundStyle(.tint)
                             }
                         } else {
                             Text(order.whatsappNumber)
@@ -112,6 +111,10 @@ struct OrderDetailView: View {
                         .foregroundStyle(order.status.foregroundColor)
                     }
                 }
+
+                LabeledContent("Dicatat pada", value: order.createdAt.fullFormatted)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
             }
 
             if !order.notes.isEmpty {
@@ -126,11 +129,16 @@ struct OrderDetailView: View {
                 Button(role: .destructive) {
                     showDeleteConfirmation = true
                 } label: {
-                    Label("Hapus Pesanan", systemImage: "trash")
+                    HStack {
+                        Spacer()
+                        Label("Hapus Pesanan", systemImage: "trash")
+                        Spacer()
+                    }
                 }
             }
         }
         .listStyle(.insetGrouped)
+        .tint(.accentColor)
         .navigationTitle(
             order.customerName.isEmpty ? "Detail Pesanan" : order.customerName
         )
@@ -143,11 +151,7 @@ struct OrderDetailView: View {
         .sheet(isPresented: $showEditSheet) {
             OrderFormView(existingOrder: order)
         }
-        .confirmationDialog(
-            "Hapus Pesanan?",
-            isPresented: $showDeleteConfirmation,
-            titleVisibility: .visible
-        ) {
+        .alert("Hapus Pesanan?", isPresented: $showDeleteConfirmation) {
             Button("Hapus", role: .destructive) {
                 modelContext.delete(order)
                 dismiss()

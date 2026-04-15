@@ -10,18 +10,18 @@ import SwiftData
 
 /// Workflow status: Baru → Diproses → Selesai
 enum OrderStatus: String, CaseIterable, Codable {
-    case baru      = "Baru"
-    case diproses  = "Diproses"
-    case selesai   = "Selesai"
+    case baru = "Baru"
+    case diproses = "Diproses"
+    case selesai = "Selesai"
 }
 
 // MARK: - OrderSource
 
 /// Channel asal pesanan masuk.
 enum OrderSource: String, CaseIterable, Codable {
-    case whatsapp  = "WhatsApp"
+    case whatsapp = "WhatsApp"
     case instagram = "Instagram"
-    case langsung  = "Langsung"
+    case langsung = "Langsung"
 }
 
 // MARK: - OrderItem

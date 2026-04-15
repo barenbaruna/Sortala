@@ -14,9 +14,6 @@ struct OrderFormView: View {
     /// Pass an existing order to enter edit mode; `nil` creates a new order.
     var existingOrder: Order? = nil
 
-    /// Pre-fills fields from parsed chat text (Method 2).
-    var parsedOrder: ParsedOrder? = nil
-
     // MARK: - Form State
 
     @State private var customerName = ""
@@ -31,6 +28,9 @@ struct OrderFormView: View {
     @State private var validationMessage = ""
 
     private var isEditMode: Bool { existingOrder != nil }
+
+    /// Common pre-order durations in days.
+    private let presetDays = [3, 5, 7]
 
     // MARK: - Body
 
@@ -62,34 +62,26 @@ struct OrderFormView: View {
                     }
                 }
 
-                Section {
-                    ForEach($items) { $item in
-                        ItemRowEditor(item: $item)
-                    }
-                    .onDelete { indexSet in
-                        guard items.count > 1 else { return }
-                        items.remove(atOffsets: indexSet)
-                    }
-
-                    Button {
-                        items.append(DraftItem())
-                    } label: {
-                        Label("Tambah Produk", systemImage: "plus.circle.fill")
-                    }
-                    .tint(.accentColor)
-                } header: {
-                    HStack {
-                        Text("Produk")
+                Section("Detail Pesanan") {
+                    // Quick deadline presets
+                    HStack(spacing: 8) {
+                        Text("Durasi PO")
+                            .foregroundStyle(.secondary)
                         Spacer()
-                        if items.count > 1 {
-                            Text("Geser untuk hapus")
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
+                        ForEach(presetDays, id: \.self) { days in
+                            Button("H+\(days)") {
+                                let base = Calendar.current.startOfDay(for: Date())
+                                if let date = Calendar.current.date(
+                                    byAdding: .day, value: days, to: base
+                                ) {
+                                    deadline = date.addingTimeInterval(28800) // 08:00
+                                }
+                            }
+                            .buttonStyle(.bordered)
+                            .controlSize(.mini)
                         }
                     }
-                }
 
-                Section("Detail Pesanan") {
                     DatePicker(
                         "Deadline",
                         selection: $deadline,
@@ -110,6 +102,32 @@ struct OrderFormView: View {
                     TextEditor(text: $notes)
                         .frame(minHeight: 60)
                 }
+
+                Section {
+                    ForEach($items) { $item in
+                        ItemRowEditor(item: $item)
+                    }
+                    .onDelete { indexSet in
+                        guard items.count > 1 else { return }
+                        items.remove(atOffsets: indexSet)
+                    }
+
+                    Button {
+                        items.append(DraftItem())
+                    } label: {
+                        Label("Tambah Produk", systemImage: "plus.circle.fill")
+                    }
+                } header: {
+                    HStack {
+                        Text("Produk")
+                        Spacer()
+                        if items.count > 1 {
+                            Text("Geser untuk hapus")
+                                .font(.caption2)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                }
             }
             .navigationTitle(isEditMode ? "Edit Pesanan" : "Pesanan Baru")
             .navigationBarTitleDisplayMode(.inline)
@@ -128,30 +146,21 @@ struct OrderFormView: View {
                 Text(validationMessage)
             }
         }
+        .tint(.accentColor)
         .onAppear { prefillForm() }
     }
 
     // MARK: - Prefill
 
     private func prefillForm() {
-        if let order = existingOrder {
-            customerName = order.customerName
-            whatsappNumber = order.whatsappNumber
-            items = order.items.map { DraftItem(from: $0) }
-            deadline = order.deadline
-            orderSource = order.orderSource
-            notes = order.notes
-            status = order.status
-        } else if let parsed = parsedOrder {
-            customerName = parsed.customerName ?? ""
-            whatsappNumber = parsed.whatsappNumber ?? ""
-            deadline = parsed.deadline ?? Date().addingTimeInterval(86400)
-            notes = parsed.notes ?? ""
-
-            if let product = parsed.productName {
-                items = [DraftItem(productName: product, quantity: parsed.quantity ?? 1)]
-            }
-        }
+        guard let order = existingOrder else { return }
+        customerName = order.customerName
+        whatsappNumber = order.whatsappNumber
+        items = order.items.map { DraftItem(from: $0) }
+        deadline = order.deadline
+        orderSource = order.orderSource
+        notes = order.notes
+        status = order.status
     }
 
     // MARK: - Save
