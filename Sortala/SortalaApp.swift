@@ -3,12 +3,11 @@
 //  Sortala
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 @main
 struct SortalaApp: App {
-
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([Order.self, OrderItem.self])
         let config = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

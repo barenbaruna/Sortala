@@ -6,10 +6,11 @@
 import SwiftUI
 
 struct SplashScreenView: View {
-
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @State private var logoScale: CGFloat = 0.7
     @State private var logoOpacity: Double = 0
+    @ScaledMetric(relativeTo: .largeTitle) private var logoSize: CGFloat = 64
+    @ScaledMetric(relativeTo: .body) private var featureIconSize: CGFloat = 22
 
     var body: some View {
         if hasSeenOnboarding {
@@ -31,7 +32,7 @@ struct SplashScreenView: View {
 
                 VStack(spacing: 16) {
                     Image(systemName: "doc.on.clipboard.fill")
-                        .font(.system(size: 64, weight: .medium))
+                        .font(.system(size: logoSize, weight: .medium))
                         .foregroundStyle(.tint)
                         .scaleEffect(logoScale)
                         .opacity(logoOpacity)
@@ -102,7 +103,7 @@ struct SplashScreenView: View {
     private func featureRow(icon: String, title: String, subtitle: String) -> some View {
         HStack(spacing: 14) {
             Image(systemName: icon)
-                .font(.system(size: 22))
+                .font(.system(size: featureIconSize))
                 .foregroundStyle(.tint)
                 .frame(width: 36)
 

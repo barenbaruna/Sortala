@@ -6,10 +6,53 @@
 import Foundation
 import SwiftUI
 
+// MARK: - Adaptive Colors (Light/Dark Mode)
+
+extension Color {
+    /// Overdue row background — subtle red tint that remains visible in both modes.
+    static let overdueRowBackground = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor.systemRed.withAlphaComponent(0.12)
+            : UIColor.systemRed.withAlphaComponent(0.05)
+    })
+    
+    /// Today row background — subtle teal tint.
+    static let todayRowBackground = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor.systemTeal.withAlphaComponent(0.10)
+            : UIColor.systemTeal.withAlphaComponent(0.05)
+    })
+    
+    /// Status capsule backgrounds — adaptive for contrast in both modes.
+    static let statusBaru = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor.systemTeal.withAlphaComponent(0.25)
+            : UIColor.systemTeal.withAlphaComponent(0.12)
+    })
+    
+    static let statusDiproses = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor.systemOrange.withAlphaComponent(0.25)
+            : UIColor.systemOrange.withAlphaComponent(0.12)
+    })
+    
+    static let statusSelesai = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor(red: 0.2, green: 0.78, blue: 0.35, alpha: 0.25)
+            : UIColor(red: 0.2, green: 0.78, blue: 0.35, alpha: 0.12)
+    })
+    
+    /// Preset button selected background.
+    static let presetSelected = Color(UIColor { traits in
+        traits.userInterfaceStyle == .dark
+            ? UIColor.systemTeal.withAlphaComponent(0.25)
+            : UIColor.systemTeal.withAlphaComponent(0.12)
+    })
+}
+
 // MARK: - Date Formatting
 
 extension Date {
-
     /// Relatif: "Hari ini", "Besok", atau "11 Apr"
     var relativeFormatted: String {
         let calendar = Calendar.current
@@ -44,6 +87,14 @@ extension Date {
         return dateString
     }
 
+    /// Time-only: "08.00"
+    var timeFormatted: String {
+        let formatter = DateFormatter()
+        formatter.locale = Locale(identifier: "id_ID")
+        formatter.dateFormat = "HH.mm"
+        return formatter.string(from: self)
+    }
+
     /// Date-only key for grouping (strips time component).
     var dateOnlyKey: Date {
         Calendar.current.startOfDay(for: self)
@@ -53,7 +104,6 @@ extension Date {
 // MARK: - WhatsApp
 
 extension String {
-
     /// Normalisasi ke format internasional: "0812..." → "6281..."
     var normalizedWhatsAppNumber: String {
         var number = self
@@ -80,28 +130,36 @@ extension String {
 // MARK: - OrderStatus UI
 
 extension OrderStatus {
-
     var icon: String {
         switch self {
-        case .baru:      return "sparkles"
-        case .diproses:  return "arrow.triangle.2.circlepath"
-        case .selesai:   return "checkmark.circle.fill"
+        case .baru: return "circle"
+        case .diproses: return "arrow.triangle.2.circlepath"
+        case .selesai: return "checkmark.circle.fill"
         }
     }
 
     var foregroundColor: Color {
         switch self {
-        case .baru:      return .blue
-        case .diproses:  return .orange
-        case .selesai:   return .green
+        case .baru: return .teal
+        case .diproses: return .orange
+        case .selesai: return .green
         }
     }
 
     var backgroundColor: Color {
         switch self {
-        case .baru:      return .blue.opacity(0.15)
-        case .diproses:  return .orange.opacity(0.15)
-        case .selesai:   return .green.opacity(0.15)
+        case .baru: return .statusBaru
+        case .diproses: return .statusDiproses
+        case .selesai: return .statusSelesai
+        }
+    }
+
+    /// Next status in the workflow, nil if already complete.
+    var nextStatus: OrderStatus? {
+        switch self {
+        case .baru: return .diproses
+        case .diproses: return .selesai
+        case .selesai: return nil
         }
     }
 }
@@ -109,20 +167,19 @@ extension OrderStatus {
 // MARK: - OrderSource UI
 
 extension OrderSource {
-
     var icon: String {
         switch self {
-        case .whatsapp:  return "message.fill"
+        case .whatsapp: return "message.fill"
         case .instagram: return "camera.fill"
-        case .langsung:  return "person.fill"
+        case .langsung: return "person.fill"
         }
     }
 
     var color: Color {
         switch self {
-        case .whatsapp:  return .green
+        case .whatsapp: return .green
         case .instagram: return .purple
-        case .langsung:  return .secondary
+        case .langsung: return .secondary
         }
     }
 }

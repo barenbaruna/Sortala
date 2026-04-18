@@ -3,11 +3,10 @@
 //  Sortala
 //
 
-import SwiftUI
 import SwiftData
+import SwiftUI
 
 struct OrderDetailView: View {
-
     @Bindable var order: Order
 
     @Environment(\.modelContext) private var modelContext
@@ -25,7 +24,6 @@ struct OrderDetailView: View {
                     "Nama",
                     value: order.customerName.isEmpty ? "-" : order.customerName
                 )
-                .autocorrectionDisabled()
                 if !order.whatsappNumber.isEmpty {
                     HStack {
                         Text("WhatsApp")
@@ -44,6 +42,9 @@ struct OrderDetailView: View {
                                 .foregroundStyle(.secondary)
                         }
                     }
+                }
+                if !order.address.isEmpty {
+                    LabeledContent("Alamat", value: order.address)
                 }
             }
 
@@ -71,9 +72,9 @@ struct OrderDetailView: View {
                     VStack(alignment: .trailing, spacing: 2) {
                         Text(order.deadline.relativeFormatted)
                             .foregroundStyle(order.isOverdue ? .red : .primary)
-                            .fontWeight(order.isDueToday ? .semibold : .regular)
+                            .fontWeight(order.isDueToday || order.isOverdue ? .semibold : .regular)
                         Text(order.deadline.fullFormatted)
-                            .font(.caption2)
+                            .font(.caption)
                             .foregroundStyle(.secondary)
                     }
                 }
@@ -99,9 +100,12 @@ struct OrderDetailView: View {
                         }
                     } label: {
                         HStack(spacing: 6) {
+                            Image(systemName: order.status.icon)
+                                .contentTransition(.symbolEffect(.replace))
+                                .font(.caption)
                             Text(order.status.rawValue)
                             Image(systemName: "chevron.up.chevron.down")
-                                .font(.caption)
+                                .font(.caption2)
                         }
                         .font(.subheadline)
                         .fontWeight(.medium)
@@ -109,12 +113,17 @@ struct OrderDetailView: View {
                         .padding(.vertical, 5)
                         .background(order.status.backgroundColor, in: Capsule())
                         .foregroundStyle(order.status.foregroundColor)
+                        .animation(.snappy(duration: 0.25), value: order.status)
                     }
                 }
 
-                LabeledContent("Dicatat pada", value: order.createdAt.fullFormatted)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                HStack {
+                    Text("Dicatat pada")
+                    Spacer()
+                    Text(order.createdAt.fullFormatted)
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                }
             }
 
             if !order.notes.isEmpty {
@@ -128,6 +137,7 @@ struct OrderDetailView: View {
             Section {
                 Button(role: .destructive) {
                     showDeleteConfirmation = true
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                 } label: {
                     Text("Hapus Pesanan")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -149,12 +159,22 @@ struct OrderDetailView: View {
         }
         .alert("Hapus Pesanan?", isPresented: $showDeleteConfirmation) {
             Button("Hapus", role: .destructive) {
+                NotificationManager.cancelReminder(for: order)
                 modelContext.delete(order)
                 dismiss()
             }
             Button("Batal", role: .cancel) {}
         } message: {
             Text("Pesanan \(order.customerName) akan dihapus permanen.")
+        }
+        .onChange(of: order.status) { _, newStatus in
+            if newStatus == .selesai {
+                NotificationManager.cancelReminder(for: order)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+            } else {
+                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                NotificationManager.scheduleDeadlineReminder(for: order)
+            }
         }
     }
 }

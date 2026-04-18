@@ -47,6 +47,7 @@ final class Order {
     var createdAt: Date
     var customerName: String
     var whatsappNumber: String
+    var address: String
 
     @Relationship(deleteRule: .cascade)
     var items: [OrderItem]
@@ -74,6 +75,7 @@ final class Order {
     init(
         customerName: String = "",
         whatsappNumber: String = "",
+        address: String = "",
         items: [OrderItem] = [],
         deadline: Date = Date().addingTimeInterval(86400),
         orderSource: OrderSource = .whatsapp,
@@ -84,6 +86,7 @@ final class Order {
         self.createdAt = Date()
         self.customerName = customerName
         self.whatsappNumber = whatsappNumber
+        self.address = address
         self.items = items
         self.deadline = deadline
         self.orderSource = orderSource
