@@ -6,22 +6,34 @@
 import UserNotifications
 
 /// Manages local deadline reminder notifications.
-/// Apple HIG: "Use notifications to share genuinely important or timely information."
+/// HIG: "Use notifications to share genuinely important or timely information."
 enum NotificationManager {
     // MARK: - Permission
 
-    /// Requests notification permission. Called on first order save
-    /// so the user understands WHY we need it (context-driven).
-    static func requestPermission() {
-        UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .sound, .badge]) { _, _ in }
+    /// Checks current authorization status.
+    static func checkStatus() async -> UNAuthorizationStatus {
+        await UNUserNotificationCenter.current().notificationSettings().authorizationStatus
+    }
+
+    /// Requests notification permission. Returns true if granted.
+    /// Called on first order save so the user understands WHY (context-driven).
+    static func requestPermission() async -> Bool {
+        do {
+            return try await UNUserNotificationCenter.current()
+                .requestAuthorization(options: [.alert, .sound])
+        } catch {
+            return false
+        }
     }
 
     // MARK: - Schedule
 
     /// Schedules a reminder 1 hour before the order deadline.
-    /// Uses `.timeSensitive` because deadlines are time-critical.
-    static func scheduleDeadlineReminder(for order: Order) {
+    /// Only schedules if notification permission is authorized.
+    static func scheduleDeadlineReminder(for order: Order) async {
+        let status = await checkStatus()
+        guard status == .authorized || status == .provisional else { return }
+        
         let triggerDate = order.deadline.addingTimeInterval(-3600)
         guard triggerDate > Date() else { return }
 
@@ -46,7 +58,7 @@ enum NotificationManager {
             trigger: trigger
         )
 
-        UNUserNotificationCenter.current().add(request)
+        try? await UNUserNotificationCenter.current().add(request)
     }
 
     // MARK: - Cancel
@@ -57,5 +69,12 @@ enum NotificationManager {
             .removePendingNotificationRequests(
                 withIdentifiers: [order.id.uuidString]
             )
+    }
+
+    // MARK: - Badge
+
+    /// Clears the app icon badge count. Call when app becomes active.
+    static func clearBadge() {
+        UNUserNotificationCenter.current().setBadgeCount(0)
     }
 }

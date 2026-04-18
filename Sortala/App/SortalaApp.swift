@@ -18,9 +18,18 @@ struct SortalaApp: App {
         }
     }()
 
+    init() {}
+
     var body: some Scene {
         WindowGroup {
             SplashScreenView()
+                .onReceive(
+                    NotificationCenter.default.publisher(
+                        for: UIApplication.didBecomeActiveNotification
+                    )
+                ) { _ in
+                    NotificationManager.clearBadge()
+                }
         }
         .modelContainer(sharedModelContainer)
     }

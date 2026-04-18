@@ -7,14 +7,17 @@ import SwiftUI
 
 struct SplashScreenView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
+    @AppStorage("hasCompletedTutorial") private var hasCompletedTutorial = false
     @State private var logoScale: CGFloat = 0.7
     @State private var logoOpacity: Double = 0
     @ScaledMetric(relativeTo: .largeTitle) private var logoSize: CGFloat = 64
     @ScaledMetric(relativeTo: .body) private var featureIconSize: CGFloat = 22
 
     var body: some View {
-        if hasSeenOnboarding {
+        if hasSeenOnboarding && hasCompletedTutorial {
             HomeView()
+        } else if hasSeenOnboarding && !hasCompletedTutorial {
+            GuidedTutorialView()
         } else {
             onboardingContent
         }

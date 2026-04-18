@@ -248,7 +248,7 @@ struct OrderFormView: View {
             
             // Reschedule notification for updated deadline
             NotificationManager.cancelReminder(for: order)
-            NotificationManager.scheduleDeadlineReminder(for: order)
+            Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
         } else {
             let newOrder = Order(
                 customerName: customerName,
@@ -267,45 +267,16 @@ struct OrderFormView: View {
             
             modelContext.insert(newOrder)
             
-            // Request permission on first save, then schedule
-            NotificationManager.requestPermission()
-            NotificationManager.scheduleDeadlineReminder(for: newOrder)
+            // Context-driven: request permission on first save, then schedule
+            Task {
+                _ = await NotificationManager.requestPermission()
+                await NotificationManager.scheduleDeadlineReminder(for: newOrder)
+            }
         }
         
         UINotificationFeedbackGenerator().notificationOccurred(.success)
         
         dismiss()
-    }
-}
-
-// MARK: - DraftItem
-
-/// Transient model for form editing before persisting to SwiftData.
-struct DraftItem: Identifiable {
-    let id = UUID()
-    var productName: String = ""
-    var quantity: Int = 1
-    
-    init(from orderItem: OrderItem) {
-        self.productName = orderItem.productName
-        self.quantity = orderItem.quantity
-    }
-    
-    init(productName: String = "", quantity: Int = 1) {
-        self.productName = productName
-        self.quantity = quantity
-    }
-}
-
-// MARK: - ItemRowEditor
-
-struct ItemRowEditor: View {
-    @Binding var item: DraftItem
-    
-    var body: some View {
-        TextField("Nama produk", text: $item.productName)
-        Stepper("\(item.quantity) pcs", value: $item.quantity, in: 1 ... 99)
-            .monospacedDigit()
     }
 }
 

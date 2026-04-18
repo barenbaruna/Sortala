@@ -173,7 +173,7 @@ struct OrderDetailView: View {
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
             } else {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                NotificationManager.scheduleDeadlineReminder(for: order)
+                Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
             }
         }
     }
