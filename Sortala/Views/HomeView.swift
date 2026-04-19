@@ -109,6 +109,7 @@ struct HomeView: View {
                         withAnimation {
                             modelContext.delete(order)
                         }
+                        Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
                     }
                     orderToDelete = nil
                 }
@@ -205,6 +206,7 @@ struct HomeView: View {
                                         await NotificationManager.scheduleDeadlineReminder(for: order)
                                     }
                                 }
+                                Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
                             } label: {
                                 Label(next.rawValue, systemImage: next.icon)
                             }
@@ -225,6 +227,7 @@ struct HomeView: View {
                                         await NotificationManager.scheduleDeadlineReminder(for: order)
                                     }
                                 }
+                                Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
                             } label: {
                                 Label(next.rawValue, systemImage: next.icon)
                             }

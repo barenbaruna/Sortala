@@ -1,11 +1,11 @@
 //
-//  SplashScreenView.swift
+//  OnboardingView.swift
 //  Sortala
 //
 
 import SwiftUI
 
-struct SplashScreenView: View {
+struct OnboardingView: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @AppStorage("hasCompletedTutorial") private var hasCompletedTutorial = false
     @State private var logoScale: CGFloat = 0.7
@@ -34,9 +34,12 @@ struct SplashScreenView: View {
                 Spacer()
 
                 VStack(spacing: 16) {
-                    Image(systemName: "doc.on.clipboard.fill")
-                        .font(.system(size: logoSize, weight: .medium))
-                        .foregroundStyle(.tint)
+                    Image("SplashScreen")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: logoSize * 1.5, height: logoSize * 1.5)
+                        .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                        .shadow(color: .black.opacity(0.1), radius: 10, y: 5)
                         .scaleEffect(logoScale)
                         .opacity(logoOpacity)
 
@@ -127,5 +130,5 @@ struct SplashScreenView: View {
 }
 
 #Preview {
-    SplashScreenView()
+    OnboardingView()
 }

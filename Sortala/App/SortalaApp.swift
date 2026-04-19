@@ -22,7 +22,7 @@ struct SortalaApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SplashScreenView()
+            AnimatedSplashView()
                 .onReceive(
                     NotificationCenter.default.publisher(
                         for: UIApplication.didBecomeActiveNotification

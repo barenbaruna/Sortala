@@ -98,7 +98,8 @@ struct GuidedTutorialView: View {
             
             Text(currentStep.instruction)
                 .font(.title3)
-                .fontWeight(.semibold)
+                .fontWeight(.bold)
+                .lineSpacing(4)
                 .multilineTextAlignment(.center)
                 .contentTransition(.numericText())
             
@@ -115,9 +116,10 @@ struct GuidedTutorialView: View {
     
     private var practiceList: some View {
         VStack(spacing: 0) {
-            Text("COBA DI SINI")
-                .font(.caption2)
-                .fontWeight(.medium)
+            Text("SILAKAN COBA DI BAWAH INI")
+                .font(.caption)
+                .fontWeight(.bold)
+                .kerning(1.0)
                 .foregroundStyle(.secondary)
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.horizontal, 36)
@@ -134,12 +136,15 @@ struct GuidedTutorialView: View {
             .frame(height: 140)
             
             if stepCompleted {
-                Label("Berhasil!", systemImage: "checkmark.circle.fill")
-                    .font(.subheadline)
-                    .fontWeight(.medium)
-                    .foregroundStyle(.green)
-                    .transition(.scale.combined(with: .opacity))
-                    .padding(.top, 8)
+                HStack(spacing: 6) {
+                    Image(systemName: "checkmark.circle.fill")
+                    Text("Berhasil!")
+                }
+                .font(.subheadline)
+                .fontWeight(.bold)
+                .foregroundStyle(.green)
+                .padding(.top, 12)
+                .transition(.opacity.combined(with: .scale(scale: 0.8)))
             }
         }
     }
@@ -151,6 +156,7 @@ struct GuidedTutorialView: View {
             HStack {
                 Text("Zahra Nur")
                     .font(.headline)
+                    .fontWeight(.bold)
                 Spacer()
                 HStack(spacing: 4) {
                     Circle()
@@ -207,7 +213,9 @@ struct GuidedTutorialView: View {
                     Label("Diproses", systemImage: "arrow.triangle.2.circlepath")
                 }
                 
-                Button {} label: {
+                Button {
+                    completeLongPress()
+                } label: {
                     Label("WhatsApp", systemImage: "message.fill")
                 }
                 

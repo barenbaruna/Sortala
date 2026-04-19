@@ -19,7 +19,10 @@ struct OrderFormView: View {
     @State private var whatsappNumber = ""
     @State private var address = ""
     @State private var items: [DraftItem] = [DraftItem()]
-    @State private var deadline = Date().addingTimeInterval(86400)
+    @State private var deadline: Date = {
+        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
+        return Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: tomorrow) ?? tomorrow
+    }()
     @State private var orderSource: OrderSource = .whatsapp
     @State private var notes = ""
     @State private var status: OrderStatus = .baru
@@ -33,8 +36,8 @@ struct OrderFormView: View {
         existingOrder != nil
     }
     
-    /// Common pre-order durations in days.
-    private let presetDays = [3, 5, 7]
+    /// Common pre-order durations in days. (1=Besok, 3=Medium, 7=Satu Minggu)
+    private let presetDays = [1, 3, 7]
     
     // MARK: - Body
     
@@ -177,7 +180,7 @@ struct OrderFormView: View {
             if let date = Calendar.current.date(
                 byAdding: .day, value: days, to: base
             ) {
-                deadline = date.addingTimeInterval(28800) // 08:00
+                deadline = Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: date) ?? date.addingTimeInterval(54000) // 15:00 Sore
             }
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
@@ -248,7 +251,10 @@ struct OrderFormView: View {
             
             // Reschedule notification for updated deadline
             NotificationManager.cancelReminder(for: order)
-            Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
+            Task { 
+                await NotificationManager.scheduleDeadlineReminder(for: order)
+                await NotificationManager.updateEveningRadar(modelContext: modelContext)
+            }
         } else {
             let newOrder = Order(
                 customerName: customerName,
@@ -271,6 +277,7 @@ struct OrderFormView: View {
             Task {
                 _ = await NotificationManager.requestPermission()
                 await NotificationManager.scheduleDeadlineReminder(for: newOrder)
+                await NotificationManager.updateEveningRadar(modelContext: modelContext)
             }
         }
         
