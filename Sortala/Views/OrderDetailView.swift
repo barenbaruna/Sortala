@@ -83,7 +83,7 @@ struct OrderDetailView: View {
                     Text("Sumber")
                     Spacer()
                     HStack(spacing: 4) {
-                        Image(systemName: order.orderSource.icon)
+                        Image(systemName: "storefront.fill")
                         Text(order.orderSource.rawValue)
                     }
                     .foregroundStyle(.secondary)

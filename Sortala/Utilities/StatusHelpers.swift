@@ -41,23 +41,3 @@ extension OrderStatus {
         }
     }
 }
-
-// MARK: - OrderSource UI
-
-extension OrderSource {
-    var icon: String {
-        switch self {
-        case .whatsapp: return "message.fill"
-        case .instagram: return "camera.fill"
-        case .langsung: return "person.fill"
-        }
-    }
-
-    var color: Color {
-        switch self {
-        case .whatsapp: return .green
-        case .instagram: return .purple
-        case .langsung: return .secondary
-        }
-    }
-}

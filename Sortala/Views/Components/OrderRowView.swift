@@ -30,19 +30,26 @@ struct OrderRowView: View {
                 }
             }
             
-            // Level 2: Source + product summary
-            HStack(spacing: 4) {
-                Image(systemName: order.orderSource.icon)
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
-                Text(order.itemsSummary)
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                    .lineLimit(1)
-            }
+            Text(order.itemsSummary)
+                .font(.subheadline)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
             
-            // Level 3: Deadline urgency
-            deadlineIndicator
+            // Level 3: Deadline urgency + Order Source
+            HStack(spacing: 8) {
+                deadlineIndicator
+                    .layoutPriority(1)
+                
+                Spacer(minLength: 12)
+                
+                HStack(spacing: 4) {
+                    Image(systemName: "storefront.fill")
+                    Text(order.orderSource.rawValue)
+                }
+                .font(.caption)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+            }
         }
     }
     
