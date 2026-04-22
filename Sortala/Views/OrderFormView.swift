@@ -31,9 +31,44 @@ struct OrderFormView: View {
     @State private var validationMessage = ""
     @State private var selectedPresetDays: Int?
     @State private var addProductBounce: Int = 0
+    @State private var originalSnapshot: FormSnapshot?
     
     private var isEditMode: Bool {
         existingOrder != nil
+    }
+    
+    // MARK: - Change Detection
+    
+    /// Snapshot of form data at load time for dirty-checking in edit mode.
+    private struct FormSnapshot {
+        let customerName: String
+        let whatsappNumber: String
+        let address: String
+        let notes: String
+        let deadline: Date
+        let orderSource: OrderSource
+        let status: OrderStatus
+        let items: [(name: String, quantity: Int)]
+    }
+    
+    /// Returns true when any field differs from the original order (edit mode)
+    /// or always true for new orders.
+    private var hasChanges: Bool {
+        guard let snapshot = originalSnapshot else { return true }
+        if customerName != snapshot.customerName { return true }
+        if whatsappNumber != snapshot.whatsappNumber { return true }
+        if address != snapshot.address { return true }
+        if notes != snapshot.notes { return true }
+        if orderSource != snapshot.orderSource { return true }
+        if status != snapshot.status { return true }
+        if !Calendar.current.isDate(deadline, equalTo: snapshot.deadline, toGranularity: .minute) { return true }
+        let currentItems = items.filter { !$0.productName.isEmpty }
+            .map { ($0.productName, $0.quantity) }
+        if currentItems.count != snapshot.items.count { return true }
+        for (current, original) in zip(currentItems, snapshot.items) {
+            if current.0 != original.0 || current.1 != original.1 { return true }
+        }
+        return false
     }
     
     /// Common pre-order durations in days. (1=Besok, 3=Medium, 7=Satu Minggu)
@@ -157,6 +192,8 @@ struct OrderFormView: View {
                         Image(systemName: "checkmark")
                             .fontWeight(.bold)
                     }
+                    .tint(isEditMode && hasChanges ? .teal : nil)
+                    .disabled(isEditMode && !hasChanges)
                 }
             }
             .alert("Perlu Dilengkapi", isPresented: $showValidationError) {
@@ -165,6 +202,7 @@ struct OrderFormView: View {
                 Text(validationMessage)
             }
         }
+        .interactiveDismissDisabled(isEditMode && hasChanges)
         .onAppear { prefillForm() }
     }
     
@@ -211,6 +249,18 @@ struct OrderFormView: View {
         orderSource = order.orderSource
         notes = order.notes
         status = order.status
+        
+        // Capture snapshot for change detection
+        originalSnapshot = FormSnapshot(
+            customerName: order.customerName,
+            whatsappNumber: order.whatsappNumber,
+            address: order.address,
+            notes: order.notes,
+            deadline: order.deadline,
+            orderSource: order.orderSource,
+            status: order.status,
+            items: order.items.map { ($0.productName, $0.quantity) }
+        )
     }
     
     // MARK: - Save

@@ -27,6 +27,8 @@ struct OrderRowView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
+                    // Fixed min-width so all statuses start at the same horizontal position
+                    .frame(minWidth: 76, alignment: .leading)
                 }
             }
             
@@ -35,20 +37,19 @@ struct OrderRowView: View {
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
             
-            // Level 3: Deadline urgency + Order Source
+            // Level 3: Deadline + Source (left-grouped), Spacer on right
             HStack(spacing: 8) {
                 deadlineIndicator
-                    .layoutPriority(1)
-                
-                Spacer(minLength: 12)
-                
+
                 HStack(spacing: 4) {
-                    Image(systemName: "storefront.fill")
+                    Image(systemName: order.orderSource.icon)
                     Text(order.orderSource.rawValue)
                 }
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
+
+                Spacer()
             }
         }
     }

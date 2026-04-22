@@ -39,6 +39,8 @@ struct HomeView: View {
     @State private var showAddOrder = false
     @State private var orderToDelete: Order?
     @State private var showDeleteAlert = false
+    @State private var orderToAdvance: Order?
+    @State private var showAdvanceConfirm = false
     
     // MARK: Filtering
     
@@ -84,8 +86,8 @@ struct HomeView: View {
                 }
             }
             .listStyle(.insetGrouped)
-            .navigationTitle("Pre-Orders")
             .overlay { emptyStateView }
+            .navigationTitle("Pre-Orders")
             .searchable(
                 text: $searchText,
                 placement: .toolbar,
@@ -119,6 +121,20 @@ struct HomeView: View {
             } message: {
                 Text("Pesanan \(orderToDelete?.customerName ?? "") akan dihapus permanen.")
             }
+            .alert("Ubah Status?", isPresented: $showAdvanceConfirm) {
+                if let order = orderToAdvance, let next = order.status.nextStatus {
+                    Button(next.rawValue) {
+                        advanceStatus(of: order, to: next)
+                    }
+                    Button("Batal", role: .cancel) {
+                        orderToAdvance = nil
+                    }
+                }
+            } message: {
+                if let order = orderToAdvance, let next = order.status.nextStatus {
+                    Text("Status \(order.customerName) akan diubah dari \(order.status.rawValue) ke \(next.rawValue).")
+                }
+            }
         }
     }
     
@@ -126,20 +142,23 @@ struct HomeView: View {
     
     private var filterSection: some View {
         Section {
-            VStack(spacing: 8) {
+            VStack(alignment: .leading, spacing: 10) {
                 Picker("Filter", selection: $selectedFilter) {
                     ForEach(OrderFilter.allCases, id: \.self) { filter in
                         Text(filter.rawValue).tag(filter)
                     }
                 }
                 .pickerStyle(.segmented)
+                .padding(.horizontal, 6) // Clearance for ~10pt card corner radius clip mask
                 .onChange(of: selectedFilter) {
                     UISelectionFeedbackGenerator().selectionChanged()
                 }
-                
+
                 orderCountSummary
+                    .padding(.horizontal, 16) // Align with card content + clear corner clipping
             }
         }
+        .listRowInsets(EdgeInsets())
         .listRowBackground(Color.clear)
         .listSectionSpacing(.compact)
     }
@@ -190,23 +209,15 @@ struct HomeView: View {
                             Label("Hapus", systemImage: "trash")
                         }
                     }
-                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
+                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
                         if let next = order.status.nextStatus {
                             Button {
-                                withAnimation {
-                                    order.status = next
+                                UIImpactFeedbackGenerator(style: .light).impactOccurred()
+                                let target = order
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+                                    orderToAdvance = target
+                                    showAdvanceConfirm = true
                                 }
-
-                                if next == .selesai {
-                                    NotificationManager.cancelReminder(for: order)
-                                    UINotificationFeedbackGenerator().notificationOccurred(.success)
-                                } else {
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                                    Task {
-                                        await NotificationManager.scheduleDeadlineReminder(for: order)
-                                    }
-                                }
-                                Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
                             } label: {
                                 Label(next.rawValue, systemImage: next.icon)
                             }
@@ -216,18 +227,8 @@ struct HomeView: View {
                     .contextMenu {
                         if let next = order.status.nextStatus {
                             Button {
-                                withAnimation { order.status = next }
-
-                                if next == .selesai {
-                                    NotificationManager.cancelReminder(for: order)
-                                    UINotificationFeedbackGenerator().notificationOccurred(.success)
-                                } else {
-                                    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-                                    Task {
-                                        await NotificationManager.scheduleDeadlineReminder(for: order)
-                                    }
-                                }
-                                Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
+                                orderToAdvance = order
+                                showAdvanceConfirm = true
                             } label: {
                                 Label(next.rawValue, systemImage: next.icon)
                             }
@@ -289,6 +290,20 @@ struct HomeView: View {
     }
     
     // MARK: - Helpers
+    
+    /// Advances an order's status and handles notification + haptic side-effects.
+    private func advanceStatus(of order: Order, to next: OrderStatus) {
+        withAnimation { order.status = next }
+        if next == .selesai {
+            NotificationManager.cancelReminder(for: order)
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+        } else {
+            UIImpactFeedbackGenerator(style: .light).impactOccurred()
+            Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
+        }
+        Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
+        orderToAdvance = nil
+    }
     
     private func sectionHeaderColor(for date: Date) -> Color {
         let calendar = Calendar.current

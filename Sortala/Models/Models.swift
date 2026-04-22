@@ -22,6 +22,7 @@ enum OrderSource: String, CaseIterable, Codable {
     case whatsapp = "WhatsApp"
     case instagram = "Instagram"
     case langsung = "Langsung"
+    case lainnya = "Lainnya"
 }
 
 // MARK: - OrderItem

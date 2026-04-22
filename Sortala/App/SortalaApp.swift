@@ -18,8 +18,6 @@ struct SortalaApp: App {
         }
     }()
 
-    init() {}
-
     var body: some Scene {
         WindowGroup {
             AnimatedSplashView()

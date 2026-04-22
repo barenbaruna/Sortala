@@ -12,7 +12,7 @@ extension OrderStatus {
         switch self {
         case .baru: return "circle"
         case .diproses: return "arrow.triangle.2.circlepath"
-        case .selesai: return "checkmark.circle.fill"
+        case .selesai: return "checkmark.circle"
         }
     }
 
@@ -38,6 +38,20 @@ extension OrderStatus {
         case .baru: return .diproses
         case .diproses: return .selesai
         case .selesai: return nil
+        }
+    }
+}
+
+// MARK: - OrderSource UI
+
+extension OrderSource {
+    /// Semantic SF Symbol representing the communication channel.
+    var icon: String {
+        switch self {
+        case .whatsapp: return "bubble.left.fill"
+        case .instagram: return "camera.fill"
+        case .langsung: return "person.fill"
+        case .lainnya: return "ellipsis.circle.fill"
         }
     }
 }
