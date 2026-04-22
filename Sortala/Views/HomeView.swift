@@ -209,7 +209,7 @@ struct HomeView: View {
                             Label("Hapus", systemImage: "trash")
                         }
                     }
-                    .swipeActions(edge: .leading, allowsFullSwipe: false) {
+                    .swipeActions(edge: .leading, allowsFullSwipe: true) {
                         if let next = order.status.nextStatus {
                             Button {
                                 UIImpactFeedbackGenerator(style: .light).impactOccurred()

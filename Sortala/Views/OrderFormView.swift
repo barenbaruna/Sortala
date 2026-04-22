@@ -71,6 +71,18 @@ struct OrderFormView: View {
         return false
     }
     
+    /// Required fields are filled: customer name + at least one product.
+    private var isFormValid: Bool {
+        let hasName = !customerName.trimmingCharacters(in: .whitespaces).isEmpty
+        let hasProduct = items.contains { !$0.productName.isEmpty }
+        return hasName && hasProduct
+    }
+    
+    /// Save button should be visually highlighted (teal) when ready to save.
+    private var canSave: Bool {
+        isFormValid && (!isEditMode || hasChanges)
+    }
+    
     /// Common pre-order durations in days. (1=Besok, 3=Medium, 7=Satu Minggu)
     private let presetDays = [1, 3, 7]
     
@@ -192,7 +204,7 @@ struct OrderFormView: View {
                         Image(systemName: "checkmark")
                             .fontWeight(.bold)
                     }
-                    .tint(isEditMode && hasChanges ? .teal : nil)
+                    .tint(canSave ? .teal : nil)
                     .disabled(isEditMode && !hasChanges)
                 }
             }
