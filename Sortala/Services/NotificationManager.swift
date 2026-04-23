@@ -126,6 +126,33 @@ enum NotificationManager {
         }
     }
 
+    // MARK: - Import Confirmation
+
+    /// Schedules a local notification confirming that an order was saved via
+    /// clipboard paste or Share Extension import.
+    ///
+    /// Safe to call from both the main app and the Share Extension — checks
+    /// existing authorization before adding the request.
+    static func scheduleImportConfirmation(customerName: String) {
+        let center = UNUserNotificationCenter.current()
+        center.getNotificationSettings { settings in
+            guard settings.authorizationStatus == .authorized else { return }
+
+            let content        = UNMutableNotificationContent()
+            content.title      = "Sortala"
+            content.body       = "Pesanan \(customerName) berhasil disimpan."
+            content.sound      = .default
+
+            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+            let request = UNNotificationRequest(
+                identifier: "import.success.\(UUID().uuidString)",
+                content: content,
+                trigger: trigger
+            )
+            center.add(request)
+        }
+    }
+
     // MARK: - Badge
 
     /// Clears the app icon badge count. Call when app becomes active.

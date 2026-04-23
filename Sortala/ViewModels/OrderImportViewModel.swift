@@ -149,6 +149,7 @@ final class OrderImportViewModel {
     ///
     /// - Parameter context: The `ModelContext` from the view's environment.
     /// - Returns: `true` when the order was successfully inserted.
+    @MainActor
     @discardableResult
     func saveOrder(context: ModelContext) async -> Bool {
         let trimmedName = customerName.trimmed

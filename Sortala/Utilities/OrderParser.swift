@@ -184,7 +184,7 @@ extension OrderParser {
         let lines = text.components(separatedBy: .newlines)
         var collectingAddress = false
 
-        for (index, line) in lines.enumerated() {
+        for (_, line) in lines.enumerated() {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
 
             // Continuation of a multi-line address
