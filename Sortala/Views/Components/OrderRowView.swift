@@ -27,7 +27,6 @@ struct OrderRowView: View {
                             .font(.subheadline)
                             .foregroundStyle(.secondary)
                     }
-                    // Fixed min-width so all statuses start at the same horizontal position
                     .frame(minWidth: 76, alignment: .leading)
                 }
             }

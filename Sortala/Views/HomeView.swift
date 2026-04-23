@@ -149,13 +149,13 @@ struct HomeView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                .padding(.horizontal, 6) // Clearance for ~10pt card corner radius clip mask
+                .padding(.horizontal, 6)
                 .onChange(of: selectedFilter) {
                     UISelectionFeedbackGenerator().selectionChanged()
                 }
 
                 orderCountSummary
-                    .padding(.horizontal, 16) // Align with card content + clear corner clipping
+                    .padding(.horizontal, 16)
             }
         }
         .listRowInsets(EdgeInsets())
@@ -313,7 +313,6 @@ struct HomeView: View {
     
     /// Subtle background tint for urgent cards.
     /// Gestalt Figure/Ground: urgent cards visually "lift" from neutral ground.
-    /// HIG triple signal: color (bg) + icon (⚠️/🕐) + text (Terlambat/Hari ini).
     private func rowBackground(for order: Order) -> Color {
         if order.isOverdue {
             return .overdueRowBackground

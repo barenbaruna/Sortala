@@ -181,8 +181,9 @@ struct OrderDetailView: View {
 
 #Preview {
     let order = Order(
-        customerName: "Zahra Nur",
+        customerName: "Baren Baruna",
         whatsappNumber: "081234567890",
+        address: "Medan",
         deadline: Date().addingTimeInterval(3600),
         orderSource: .whatsapp,
         notes: "Tulisan kue: Happy Birthday Rina"

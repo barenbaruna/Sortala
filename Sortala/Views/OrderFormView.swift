@@ -23,6 +23,7 @@ struct OrderFormView: View {
         let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         return Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: tomorrow) ?? tomorrow
     }()
+
     @State private var orderSource: OrderSource = .whatsapp
     @State private var notes = ""
     @State private var status: OrderStatus = .baru
@@ -235,7 +236,7 @@ struct OrderFormView: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
         } label: {
             Text("H+\(days)")
-                .font(.caption)
+                .font(.subheadline)
                 .fontWeight(isSelected ? .semibold : .regular)
                 .padding(.horizontal, 12)
                 .padding(.vertical, 6)
@@ -313,7 +314,7 @@ struct OrderFormView: View {
             
             // Reschedule notification for updated deadline
             NotificationManager.cancelReminder(for: order)
-            Task { 
+            Task {
                 await NotificationManager.scheduleDeadlineReminder(for: order)
                 await NotificationManager.updateEveningRadar(modelContext: modelContext)
             }

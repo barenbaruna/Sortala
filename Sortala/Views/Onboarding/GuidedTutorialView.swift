@@ -79,7 +79,7 @@ struct GuidedTutorialView: View {
     
     private var progressBar: some View {
         HStack(spacing: 6) {
-            ForEach(0..<3, id: \.self) { index in
+            ForEach(0 ..< 3, id: \.self) { index in
                 Capsule()
                     .fill(index <= currentStep.rawValue ? Color.teal : Color(.systemFill))
                     .frame(height: 4)
@@ -157,7 +157,9 @@ struct GuidedTutorialView: View {
                 Text("Zahra Nur")
                     .font(.headline)
                     .fontWeight(.bold)
+                
                 Spacer()
+                
                 HStack(spacing: 4) {
                     Circle()
                         .fill(statusColor)
