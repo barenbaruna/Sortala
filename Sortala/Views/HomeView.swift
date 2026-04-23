@@ -47,6 +47,7 @@ struct HomeView: View {
     // Using .sheet(item:) instead of .sheet(isPresented:) eliminates the race
     // condition where the sheet opened before parsedImportResult was set.
     @State private var parsedImportResult: ParsedOrder? = nil
+    @State private var hasPasteboardString = UIPasteboard.general.hasStrings
     
     // MARK: Filtering
     
@@ -109,6 +110,7 @@ struct HomeView: View {
                         Image(systemName: "doc.on.clipboard")
                     }
                     .tint(.secondary)
+                    .disabled(!hasPasteboardString)
                     .accessibilityLabel("Tempel pesanan dari clipboard")
                 }
 
@@ -160,6 +162,12 @@ struct HomeView: View {
                     Text("Status \(order.customerName) akan diubah dari \(order.status.rawValue) ke \(next.rawValue).")
                 }
             }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)) { _ in
+            hasPasteboardString = UIPasteboard.general.hasStrings
+        }
+        .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
+            hasPasteboardString = UIPasteboard.general.hasStrings
         }
     }
     

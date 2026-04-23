@@ -76,6 +76,7 @@ final class ShareExtensionViewController: UIViewController {
             self?.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
         }
         .modelContainer(container)
+        .tint(.teal)
 
         replaceContent(with: importView)
     }
