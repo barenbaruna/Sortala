@@ -19,10 +19,7 @@ struct OrderFormView: View {
     @State private var whatsappNumber = ""
     @State private var address = ""
     @State private var items: [DraftItem] = [DraftItem()]
-    @State private var deadline: Date = {
-        let tomorrow = Calendar.current.date(byAdding: .day, value: 1, to: Date()) ?? Date()
-        return Calendar.current.date(bySettingHour: 15, minute: 0, second: 0, of: tomorrow) ?? tomorrow
-    }()
+    @State private var deadline: Date = OrderImportViewModel.defaultDeadline
 
     @State private var orderSource: OrderSource = .whatsapp
     @State private var notes = ""

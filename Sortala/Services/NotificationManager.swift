@@ -7,8 +7,7 @@ import os
 import SwiftData
 import UserNotifications
 
-/// Manages local deadline reminder notifications.
-/// HIG: "Use notifications to share genuinely important or timely information."
+/// Manages local push notification scheduling for order deadlines and evening digests.
 enum NotificationManager {
     static let logger = Logger(subsystem: Bundle.main.bundleIdentifier ?? "com.sortala", category: "Notifications")
 
@@ -116,7 +115,6 @@ enum NotificationManager {
         dateComponents.hour = 20
         dateComponents.minute = 0
         
-        // repeats: false limits to accurate snapshot.
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let request = UNNotificationRequest(identifier: "evening_radar", content: content, trigger: trigger)
         

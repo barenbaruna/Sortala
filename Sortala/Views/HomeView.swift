@@ -41,6 +41,12 @@ struct HomeView: View {
     @State private var showDeleteAlert = false
     @State private var orderToAdvance: Order?
     @State private var showAdvanceConfirm = false
+
+    // MARK: Clipboard Import
+    // Single source of truth: sheet presents when non-nil, auto-nils on dismiss.
+    // Using .sheet(item:) instead of .sheet(isPresented:) eliminates the race
+    // condition where the sheet opened before parsedImportResult was set.
+    @State private var parsedImportResult: ParsedOrder? = nil
     
     // MARK: Filtering
     
@@ -95,14 +101,33 @@ struct HomeView: View {
             )
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button { showAddOrder = true } label: {
+                    Button {
+                        guard let text = UIPasteboard.general.string,
+                              !text.trimmingCharacters(in: .whitespaces).isEmpty else { return }
+                        parsedImportResult = OrderParser.shared.parse(text)
+                    } label: {
+                        Image(systemName: "doc.on.clipboard")
+                    }
+                    .tint(.secondary)
+                    .accessibilityLabel("Tempel pesanan dari clipboard")
+                }
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showAddOrder = true
+                    } label: {
                         Image(systemName: "plus")
                     }
+                    .tint(.teal)
                     .buttonStyle(.glassProminent)
+                    .accessibilityLabel("Tambah pesanan baru")
                 }
             }
             .sheet(isPresented: $showAddOrder) {
                 OrderFormView()
+            }
+            .sheet(item: $parsedImportResult) { result in
+                ClipboardImportView(parsedOrder: result)
             }
             .alert("Hapus Pesanan?", isPresented: $showDeleteAlert) {
                 Button("Hapus", role: .destructive) {
