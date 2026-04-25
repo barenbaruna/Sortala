@@ -37,8 +37,8 @@ extension Color {
     
     static let statusSelesai = Color(UIColor { traits in
         traits.userInterfaceStyle == .dark
-            ? UIColor(red: 0.2, green: 0.78, blue: 0.35, alpha: 0.25)
-            : UIColor(red: 0.2, green: 0.78, blue: 0.35, alpha: 0.12)
+            ? UIColor.systemGreen.withAlphaComponent(0.25)
+            : UIColor.systemGreen.withAlphaComponent(0.12)
     })
     
     /// Preset button selected background.

@@ -14,6 +14,11 @@ import SwiftUI
 
 // MARK: - ClipboardImportView
 
+/// Modal sheet for reviewing and confirming order data parsed from clipboard text.
+///
+/// Presented via `.sheet(item: $parsedImportResult)` in `HomeView`.
+/// Uses native `Form` + `NavigationStack` to match Apple's HIG patterns.
+/// All business logic lives in `OrderImportViewModel`.
 struct ClipboardImportView: View {
     @Environment(\.modelContext) private var modelContext
     @Environment(\.dismiss) private var dismiss
@@ -57,22 +62,17 @@ struct ClipboardImportView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button {
+            Button(role: .close) {
                 if viewModel.hasEdited { viewModel.showCancelConfirm = true } else { dismiss() }
-            } label: {
-                Image(systemName: "xmark").fontWeight(.semibold)
             }
         }
 
         ToolbarItem(placement: .confirmationAction) {
-            Button {
+            Button(role: .confirm) {
                 Task {
                     if await viewModel.saveOrder(context: modelContext) { dismiss() }
                 }
-            } label: {
-                Image(systemName: "checkmark").fontWeight(.bold)
             }
-            .tint(viewModel.isFormValid ? .teal : nil)
             .disabled(!viewModel.isFormValid)
         }
     }

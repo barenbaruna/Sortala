@@ -49,10 +49,15 @@ struct OrderFormView: View {
         let items: [(name: String, quantity: Int)]
     }
     
-    /// Returns true when any field differs from the original order (edit mode)
-    /// or always true for new orders.
+    /// Returns true when the form has unsaved data worth protecting.
+    ///
+    /// - New orders: true when the user has entered any data.
+    /// - Edit orders: true when any field differs from the snapshot.
     private var hasChanges: Bool {
-        guard let snapshot = originalSnapshot else { return true }
+        guard let snapshot = originalSnapshot else {
+            // New order: check if user has typed anything
+            return hasUserInput
+        }
         if customerName != snapshot.customerName { return true }
         if whatsappNumber != snapshot.whatsappNumber { return true }
         if address != snapshot.address { return true }
@@ -67,6 +72,15 @@ struct OrderFormView: View {
             if current.0 != original.0 || current.1 != original.1 { return true }
         }
         return false
+    }
+
+    /// Whether the user has entered any data in a new order form.
+    private var hasUserInput: Bool {
+        !customerName.trimmingCharacters(in: .whitespaces).isEmpty ||
+        !whatsappNumber.trimmingCharacters(in: .whitespaces).isEmpty ||
+        !address.trimmingCharacters(in: .whitespaces).isEmpty ||
+        !notes.trimmingCharacters(in: .whitespaces).isEmpty ||
+        items.contains { !$0.productName.isEmpty }
     }
     
     /// Required fields are filled: customer name + at least one product.
@@ -189,21 +203,14 @@ struct OrderFormView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button {
+                    Button(role: .close) {
                         dismiss()
-                    } label: {
-                        Image(systemName: "xmark")
-                            .fontWeight(.semibold)
                     }
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button {
+                    Button(role: .confirm) {
                         saveOrder()
-                    } label: {
-                        Image(systemName: "checkmark")
-                            .fontWeight(.bold)
                     }
-                    .tint(canSave ? .teal : nil)
                     .disabled(isEditMode && !hasChanges)
                 }
             }
@@ -213,7 +220,7 @@ struct OrderFormView: View {
                 Text(validationMessage)
             }
         }
-        .interactiveDismissDisabled(isEditMode && hasChanges)
+        .interactiveDismissDisabled(hasChanges)
         .onAppear { prefillForm() }
     }
     

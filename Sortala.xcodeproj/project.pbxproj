@@ -53,10 +53,12 @@
 				App/SortalaApp.swift,
 				Views/ClipboardImportView.swift,
 				Views/Components/OrderRowView.swift,
+				Views/Components/PrimaryCTAButtonStyle.swift,
 				Views/HomeView.swift,
 				Views/Onboarding/AnimatedSplashView.swift,
 				Views/Onboarding/GuidedTutorialView.swift,
 				Views/Onboarding/OnboardingView.swift,
+				Views/Onboarding/RootRouter.swift,
 				Views/OrderDetailView.swift,
 				Views/OrderFormView.swift,
 			);

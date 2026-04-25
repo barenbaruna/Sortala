@@ -6,6 +6,8 @@
 import SwiftData
 import SwiftUI
 
+/// Displays the full details of a single order, including customer info,
+/// products, deadline, status, and notes. Supports editing and deletion.
 struct OrderDetailView: View {
     @Bindable var order: Order
 
@@ -154,6 +156,7 @@ struct OrderDetailView: View {
                 Button("Edit") { showEditSheet = true }
             }
         }
+        .toolbarRole(.editor)
         .sheet(isPresented: $showEditSheet) {
             OrderFormView(existingOrder: order)
         }

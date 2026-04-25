@@ -28,6 +28,10 @@ enum OrderFilter: String, CaseIterable {
 
 // MARK: - HomeView
 
+/// The primary view displaying all pre-orders grouped by deadline date.
+///
+/// Supports filtering by status, searching by name/product, clipboard import,
+/// and swipe actions for status advancement and deletion.
 struct HomeView: View {
     @Query(sort: \Order.deadline, order: .forward)
     private var allOrders: [Order]
@@ -41,6 +45,9 @@ struct HomeView: View {
     @State private var showDeleteAlert = false
     @State private var orderToAdvance: Order?
     @State private var showAdvanceConfirm = false
+
+    /// Namespace for zoom navigation transitions (Apple Wishlist pattern).
+    @Namespace private var namespace
 
     // MARK: Clipboard Import
 
@@ -123,11 +130,13 @@ struct HomeView: View {
                     }
                     .tint(.teal)
                     .buttonStyle(.glassProminent)
+                    .matchedTransitionSource(id: "addOrder", in: namespace)
                     .accessibilityLabel("Tambah pesanan baru")
                 }
             }
             .sheet(isPresented: $showAddOrder) {
                 OrderFormView()
+                    .navigationTransition(.zoom(sourceID: "addOrder", in: namespace))
             }
             .sheet(item: $parsedImportResult) { result in
                 ClipboardImportView(parsedOrder: result)
@@ -228,8 +237,12 @@ struct HomeView: View {
         ForEach(groupedOrders, id: \.date) { group in
             Section {
                 ForEach(group.orders) { order in
-                    NavigationLink(destination: OrderDetailView(order: order)) {
+                    NavigationLink {
+                        OrderDetailView(order: order)
+                            .navigationTransition(.zoom(sourceID: order.id, in: namespace))
+                    } label: {
                         OrderRowView(order: order, showStatus: showStatusBadge)
+                            .matchedTransitionSource(id: order.id, in: namespace)
                     }
                     .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                         Button(role: .destructive) {

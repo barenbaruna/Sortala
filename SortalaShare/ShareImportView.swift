@@ -11,6 +11,11 @@
 import SwiftData
 import SwiftUI
 
+/// SwiftUI review sheet presented inside the Share Extension.
+///
+/// Uses native `Form` + `NavigationStack` to match `ClipboardImportView`
+/// exactly, ensuring a consistent user experience across both import flows.
+/// Reuses `OrderImportViewModel` for all business logic.
 struct ShareImportView: View {
     @Environment(\.modelContext) private var modelContext
 
@@ -52,20 +57,17 @@ struct ShareImportView: View {
     @ToolbarContentBuilder
     private var toolbarContent: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
-            Button {
+            Button(role: .close) {
                 if viewModel.hasEdited {
                     viewModel.showCancelConfirm = true
                 } else {
                     onDismiss()
                 }
-            } label: {
-                Image(systemName: "xmark").fontWeight(.semibold)
             }
-            // No .tint() — cancel uses system default color per HIG
         }
 
         ToolbarItem(placement: .confirmationAction) {
-            Button {
+            Button(role: .confirm) {
                 Task {
                     if await viewModel.saveOrder(context: modelContext) {
                         NotificationManager.scheduleImportConfirmation(
@@ -74,10 +76,7 @@ struct ShareImportView: View {
                         onDismiss()
                     }
                 }
-            } label: {
-                Image(systemName: "checkmark").fontWeight(.bold)
             }
-            .tint(viewModel.isFormValid ? .teal : nil)
             .disabled(!viewModel.isFormValid)
         }
     }
