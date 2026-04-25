@@ -184,6 +184,7 @@ struct OrderFormView: View {
                     }
                 }
             }
+            .tint(.teal)
             .navigationTitle(isEditMode ? "Edit Pesanan" : "Pesanan Baru")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {

@@ -3,8 +3,8 @@
 //  SortalaShare
 //
 //  SwiftUI review sheet presented inside the Share Extension.
-//  Uses native Form + NavigationStack to match ClipboardImportView exactly,
-//  ensuring a consistent user experience across both import flows.
+//  Uses native `Form` + `NavigationStack` to match ClipboardImportView
+//  exactly, ensuring a consistent user experience across both import flows.
 //
 //  Reuses `OrderImportViewModel` for all business logic (parse, validate, save).
 
@@ -29,6 +29,7 @@ struct ShareImportView: View {
                 catatanSection
                 rawTextSection
             }
+            .tint(.teal)
             .navigationTitle("Import Pesanan")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar { toolbarContent }
@@ -38,7 +39,7 @@ struct ShareImportView: View {
                 titleVisibility: .visible
             ) {
                 Button("Batalkan Import", role: .destructive) { onDismiss() }
-                Button("Tetap Edit", role: .cancel) { }
+                Button("Tetap Edit", role: .cancel) {}
             } message: {
                 Text("Data yang sudah kamu edit tidak akan disimpan.")
             }
@@ -60,6 +61,7 @@ struct ShareImportView: View {
             } label: {
                 Image(systemName: "xmark").fontWeight(.semibold)
             }
+            // No .tint() — cancel uses system default color per HIG
         }
 
         ToolbarItem(placement: .confirmationAction) {
@@ -124,7 +126,7 @@ struct ShareImportView: View {
                 HStack {
                     TextField("Nama pelanggan", text: $viewModel.customerName)
                         .multilineTextAlignment(.trailing)
-                    if viewModel.parsedOrder.detectedFields.contains(.name) { detectedBadge }
+                    if viewModel.parsedOrder.detectedFields.contains(.name) { DetectedBadge() }
                 }
             } label: {
                 Text("Nama")
@@ -136,17 +138,24 @@ struct ShareImportView: View {
                 TextField("08xx-xxxx-xxxx", text: $viewModel.whatsappNumber)
                     .multilineTextAlignment(.trailing)
                     .keyboardType(.phonePad)
-                if viewModel.parsedOrder.detectedFields.contains(.phone) { detectedBadge }
+                if viewModel.whatsappNumber.isValidWhatsAppNumber,
+                   let url = viewModel.whatsappNumber.whatsAppURL
+                {
+                    Link(destination: url) {
+                        Image(systemName: "message.fill").foregroundStyle(.teal)
+                    }
+                }
+                if viewModel.parsedOrder.detectedFields.contains(.phone) { DetectedBadge() }
             }
 
             VStack(alignment: .leading, spacing: 4) {
                 HStack {
                     Text("Alamat")
                     Spacer()
-                    if viewModel.parsedOrder.detectedFields.contains(.address) { detectedBadge }
+                    if viewModel.parsedOrder.detectedFields.contains(.address) { DetectedBadge() }
                 }
                 TextField("Jl. Medan Tenggara 7 No. 89", text: $viewModel.address, axis: .vertical)
-                    .lineLimit(2...4)
+                    .lineLimit(2 ... 4)
             }
         }
     }
@@ -176,7 +185,7 @@ struct ShareImportView: View {
         } header: {
             HStack {
                 Text("Produk")
-                if viewModel.parsedOrder.detectedFields.contains(.items) { detectedBadge }
+                if viewModel.parsedOrder.detectedFields.contains(.items) { DetectedBadge() }
                 Spacer()
                 if viewModel.items.count > 1 {
                     Text("Geser untuk hapus")
@@ -199,20 +208,35 @@ struct ShareImportView: View {
                     displayedComponents: [.date, .hourAndMinute]
                 )
                 .environment(\.locale, Locale(identifier: "id_ID"))
-                if viewModel.parsedOrder.detectedFields.contains(.deadline) { detectedBadge }
+                if viewModel.parsedOrder.detectedFields.contains(.deadline) { DetectedBadge() }
             }
 
             VStack(alignment: .leading, spacing: 2) {
-                Picker("Sumber", selection: $viewModel.orderSource) {
-                    ForEach(OrderSource.allCases, id: \.self) { source in
-                        Text(source.rawValue).tag(source)
+                HStack {
+                    Picker("Sumber", selection: $viewModel.orderSource) {
+                        ForEach(OrderSource.allCases, id: \.self) { source in
+                            Text(source.rawValue).tag(source)
+                        }
+                    }
+                    .pickerStyle(.menu)
+
+                    if viewModel.parsedOrder.detectedFields.contains(.source) {
+                        DetectedBadge()
+                    } else {
+                        // Orange indicator: source was NOT auto-detected
+                        Image(systemName: "exclamationmark.circle.fill")
+                            .foregroundStyle(.orange)
+                            .font(.caption)
+                            .accessibilityLabel("Sumber belum dikonfirmasi")
                     }
                 }
-                .pickerStyle(.menu)
 
                 Text(viewModel.sourceHint)
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundColor(
+                        viewModel.parsedOrder.detectedFields.contains(.source)
+                            ? Color.secondary : Color.orange
+                    )
             }
         }
     }
@@ -237,36 +261,5 @@ struct ShareImportView: View {
                     .textSelection(.enabled)
             }
         }
-    }
-
-    // MARK: - Helper Views
-
-    /// Teal checkmark badge indicating the field was auto-populated by the parser.
-    private var detectedBadge: some View {
-        Image(systemName: "checkmark.circle.fill")
-            .foregroundStyle(.teal)
-            .font(.caption)
-            .accessibilityLabel("Terdeteksi otomatis")
-    }
-}
-
-// MARK: - ConfidenceBar
-
-/// A horizontally filling progress capsule for the parser confidence score.
-private struct ConfidenceBar: View {
-    let value: Double
-    let color: Color
-
-    var body: some View {
-        GeometryReader { geo in
-            ZStack(alignment: .leading) {
-                Capsule().fill(Color(.systemFill)).frame(height: 6)
-                Capsule()
-                    .fill(color)
-                    .frame(width: max(0, geo.size.width * value), height: 6)
-                    .animation(.easeOut(duration: 0.35), value: value)
-            }
-        }
-        .frame(height: 6)
     }
 }

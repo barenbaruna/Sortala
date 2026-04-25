@@ -10,7 +10,7 @@ import SwiftUI
 struct OrderRowView: View {
     let order: Order
     var showStatus: Bool = true
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 6) {
             // Level 1: Customer name + status
@@ -30,12 +30,12 @@ struct OrderRowView: View {
                     .frame(minWidth: 76, alignment: .leading)
                 }
             }
-            
+
             Text(order.itemsSummary)
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .lineLimit(1)
-            
+
             // Level 3: Deadline + Source (left-grouped), Spacer on right
             HStack(spacing: 8) {
                 deadlineIndicator
@@ -52,8 +52,7 @@ struct OrderRowView: View {
             }
         }
     }
-    
-    @ViewBuilder
+
     private var deadlineIndicator: some View {
         HStack(spacing: 4) {
             if order.isOverdue {
@@ -78,7 +77,7 @@ struct OrderRowView: View {
         }
         .foregroundStyle(deadlineColor)
     }
-    
+
     private var deadlineColor: Color {
         if order.isOverdue { return .red }
         if order.isDueToday { return .teal }

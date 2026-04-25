@@ -2,31 +2,37 @@
 //  OrderParser.swift
 //  Sortala
 //
-//  Hybrid on-device parser that converts clipboard order text into a `ParsedOrder`.
+//  On-device text parser that converts unstructured order messages into
+//  a structured `ParsedOrder` for review before SwiftData persistence.
 //
-//  Architecture — three layers, applied in order:
-//  1. Swift Regex   — structured key:value template (highest accuracy)
-//  2. Foundation    — NSDataDetector for phones and dates (handles all locales)
-//  3. NaturalLanguage — NLTagger for person name extraction (on-device ML)
+//  Architecture — three layers, applied in order of specificity:
 //
-//  All processing is offline, zero network, zero third-party dependencies.
-//  See `OrderTemplate.swift` for the official supported input format.
+//  1. **Swift Regex** — Extracts structured `Key : Value` fields from
+//     template-formatted messages (e.g. `Nama : Baren Baruna`).
+//  2. **Foundation** — `NSDataDetector` fills gaps for phone numbers
+//     and dates that Layer 1 missed (handles all locales).
+//  3. **NaturalLanguage** — `NLTagger` performs on-device ML-based
+//     person-name extraction as a final fallback.
+//
+//  Thread safety: `NSDataDetector` instances are expensive to create
+//  but thread-safe for concurrent reads. They are initialised once at
+//  startup and reused for the lifetime of the singleton.
 
 import Foundation
 import NaturalLanguage
 
 // MARK: - ParsedOrder
 
-/// The result of parsing a clipboard string.
+/// The result of parsing a raw text string.
 ///
-/// All fields are optional — the user always reviews and confirms values in
-/// `OrderImportPreviewView` before anything is persisted to SwiftData.
-/// `confidence` (0–1) reflects how many required fields were detected and
-/// drives the colour of the progress bar in the preview sheet.
+/// All fields are optional — the user always reviews and confirms values
+/// in the import sheet before anything is persisted to SwiftData.
 ///
-/// Conforms to `Identifiable` so `HomeView` can use `.sheet(item:)` for
-/// atomic sheet presentation, eliminating the race condition that occurred
-/// with the previous `.sheet(isPresented:)` pattern.
+/// `confidence` (0–1) reflects how many fields were successfully
+/// extracted and drives the colour of the progress bar in the UI.
+///
+/// Conforms to `Identifiable` so `HomeView` can use `.sheet(item:)`
+/// for atomic sheet presentation.
 struct ParsedOrder: Identifiable {
     let id = UUID()
 
@@ -50,7 +56,7 @@ struct ParsedOrder: Identifiable {
     static var empty: ParsedOrder {
         ParsedOrder(
             customerName: nil, whatsappNumber: nil, address: nil,
-            items: [], deadline: nil, orderSource: .whatsapp,
+            items: [], deadline: nil, orderSource: .lainnya,
             notes: nil, confidence: 0, detectedFields: [], rawText: ""
         )
     }
@@ -62,8 +68,7 @@ struct ParsedOrder: Identifiable {
 ///
 /// `NSDataDetector` instances are expensive to initialise and are thread-safe
 /// for concurrent reads, so they are created once at startup and reused.
-final class OrderParser {
-
+final class OrderParser: Sendable {
     static let shared = OrderParser()
     private init() {}
 
@@ -76,15 +81,18 @@ final class OrderParser {
 
     // MARK: - Public API
 
-    /// Parses a raw clipboard string and returns a `ParsedOrder` with all
+    /// Parses a raw text string and returns a `ParsedOrder` with all
     /// detected fields populated and a confidence score.
+    ///
+    /// - Parameter rawText: The unstructured order message text.
+    /// - Returns: A `ParsedOrder` with extracted fields and confidence.
     func parse(_ rawText: String) -> ParsedOrder {
         let text = rawText.trimmingCharacters(in: .whitespacesAndNewlines)
         guard !text.isEmpty else { return .empty }
 
         var result = ParsedOrder(
             customerName: nil, whatsappNumber: nil, address: nil,
-            items: [], deadline: nil, orderSource: .whatsapp,
+            items: [], deadline: nil, orderSource: .lainnya,
             notes: nil, confidence: 0, detectedFields: [], rawText: rawText
         )
 
@@ -92,19 +100,20 @@ final class OrderParser {
         extractTemplateFields(from: text, into: &result)
 
         // Layer 2: fill gaps with Apple frameworks
-        if result.customerName   == nil { fillName(from: text, into: &result) }
+        if result.customerName == nil { fillName(from: text, into: &result) }
         if result.whatsappNumber == nil { fillPhone(from: text, into: &result) }
-        if result.deadline       == nil { fillDeadline(from: text, into: &result) }
-        if result.items.isEmpty         { fillItemsFreeform(from: text, into: &result) }
+        if result.deadline == nil { fillDeadline(from: text, into: &result) }
+        if result.items.isEmpty { fillItemsFreeform(from: text, into: &result) }
 
-        result.confidence  = calculateConfidence(result)
-        let source = detectOrderSource(from: text, hasPhone: result.whatsappNumber != nil)
-        result.orderSource = source
-        // Mark source as detected only when we matched a specific keyword (not just the default)
-        if source != .whatsapp || result.whatsappNumber != nil {
+        // Source detection (keyword-based only — no iOS API for clipboard source)
+        if let detected = detectOrderSource(from: text) {
+            result.orderSource = detected
             result.detectedFields.insert(.source)
         }
+        // When source is NOT detected, orderSource stays `.lainnya` and
+        // `.source` is NOT in detectedFields → UI prompts user to verify.
 
+        result.confidence = calculateConfidence(result)
         return result
     }
 
@@ -137,59 +146,87 @@ final class OrderParser {
 
     // MARK: - Confidence Score
 
-    /// Weights: items (0.35) > name (0.30) > deadline (0.20) > phone (0.10) > source (0.05)
+    /// Weighted score reflecting how much of the order was auto-detected.
+    ///
+    /// Weight table (sums to 1.0):
+    /// | Field    | Weight | Rationale                         |
+    /// |----------|--------|-----------------------------------|
+    /// | items    | 0.30   | Most critical for order meaning   |
+    /// | name     | 0.25   | Required for customer ID          |
+    /// | deadline | 0.15   | Needed for production scheduling  |
+    /// | phone    | 0.10   | Needed for WhatsApp follow-up     |
+    /// | address  | 0.10   | Delivery/pickup location          |
+    /// | notes    | 0.05   | Optional extra context             |
+    /// | source   | 0.05   | Always has a value (default/auto) |
     func calculateConfidence(_ order: ParsedOrder) -> Double {
-        var score = 0.05 // orderSource always has a value
-        if order.customerName  != nil  { score += 0.30 }
-        if !order.items.isEmpty        { score += 0.35 }
-        if order.deadline      != nil  { score += 0.20 }
+        var score = 0.0
+        if order.customerName != nil { score += 0.25 }
+        if !order.items.isEmpty { score += 0.30 }
+        if order.deadline != nil { score += 0.15 }
         if order.whatsappNumber != nil { score += 0.10 }
+        if order.address != nil { score += 0.10 }
+        if order.notes != nil { score += 0.05 }
+        if order.detectedFields.contains(.source) { score += 0.05 }
         return min(score, 1.0)
     }
 
     // MARK: - Order Source Detection
 
-    /// Infers `OrderSource` from keywords present in the text.
+    /// Infers `OrderSource` from explicit keywords in the text.
     ///
-    /// There is no public iOS API to read the bundle ID of the app that wrote
-    /// to the clipboard. The system banner "Sortala pasted from WhatsApp" is
-    /// displayed to the user only and is not accessible in code.
-    /// Detection priority: WA label > Instagram > Offline > phone present > default (.whatsapp).
-    func detectOrderSource(from text: String, hasPhone: Bool) -> OrderSource {
+    /// Returns `nil` when no keywords match — the caller must then
+    /// present a picker for the user to choose manually. This avoids
+    /// silently mislabeling orders.
+    ///
+    /// > Important: There is **no public iOS API** to detect which app
+    /// > wrote to the clipboard or triggered the Share Sheet. The system
+    /// > banner ("Sortala pasted from WhatsApp") is displayed to the user
+    /// > only and is not programmatically accessible.
+    ///
+    /// Detection priority:
+    /// 1. WhatsApp keywords → `.whatsapp`
+    /// 2. Instagram keywords → `.instagram`
+    /// 3. Offline keywords → `.langsung`
+    /// 4. No match → `nil`
+    func detectOrderSource(from text: String) -> OrderSource? {
         let lower = text.lowercased()
 
+        // WhatsApp — explicit labels only
         let waLabels = ["no. whatsapp", "no whatsapp", "nomor wa", "no. wa",
                         "no wa", "whatsapp", "wa:", "wa :"]
         if waLabels.contains(where: { lower.contains($0) }) { return .whatsapp }
 
-        let igKeywords = ["instagram", "ig ", "ig:", "direct message", "dm ", "dm:", "@"]
+        // Instagram — require word-boundary-aware patterns to avoid
+        // false positives from email addresses containing "@".
+        let igKeywords = ["instagram", "ig:", "direct message", "dm:"]
         if igKeywords.contains(where: { lower.contains($0) }) { return .instagram }
 
+        // Offline / walk-in
         let offlineKeywords = ["langsung", "offline", "datang ke toko", "walk in", "drop off"]
         if offlineKeywords.contains(where: { lower.contains($0) }) { return .langsung }
 
-        return .whatsapp
+        return nil
     }
 }
 
 // MARK: - Template Parsing (Layer 1)
 
 extension OrderParser {
-
-    /// Extracts fields from structured key:value lines (Layer 1).
+    /// Extracts fields from structured `Key : Value` lines.
     ///
-    /// Address fields support continuation lines: if the next line after `Alamat:` has no
-    /// key separator, it is appended to the address (handles multi-line street addresses).
+    /// Address fields support continuation lines: if the next line after
+    /// `Alamat:` has no key separator, it is appended to the address
+    /// (handles multi-line street addresses common in Indonesian format).
     func extractTemplateFields(from text: String, into result: inout ParsedOrder) {
         let lines = text.components(separatedBy: .newlines)
         var collectingAddress = false
 
-        for (_, line) in lines.enumerated() {
+        for line in lines {
             let trimmed = line.trimmingCharacters(in: .whitespaces)
 
             // Continuation of a multi-line address
             if collectingAddress {
-                if splitKeyValue(trimmed) == nil && !trimmed.isEmpty && !isListBullet(trimmed) {
+                if splitKeyValue(trimmed) == nil, !trimmed.isEmpty, !isListBullet(trimmed) {
                     result.address = (result.address ?? "") + " " + trimmed
                     continue
                 } else {
@@ -205,24 +242,27 @@ extension OrderParser {
                 result.detectedFields.insert(.name)
 
             } else if matchesKey(k, ["no. whatsapp", "no whatsapp", "whatsapp", "wa", "hp",
-                                     "no. hp", "no hp", "telp", "telepon", "handphone", "contact"]) {
-                result.whatsappNumber = normalizePhone(value)
+                                     "no. hp", "no hp", "telp", "telepon", "handphone", "contact"])
+            {
+                result.whatsappNumber = sanitizePhone(value)
                 result.detectedFields.insert(.phone)
 
             } else if matchesKey(k, ["alamat", "address", "lokasi", "kirim ke", "domisili"]) {
                 result.address = value
                 result.detectedFields.insert(.address)
-                collectingAddress = true   // next non-key lines are address continuation
+                collectingAddress = true // next non-key lines are address continuation
 
             } else if matchesKey(k, ["deadline", "paket po", "tgl", "tanggal", "batas",
-                                     "antar", "selesai", "order untuk", "minta tgl", "minta tanggal"]) {
+                                     "antar", "selesai", "order untuk", "minta tgl", "minta tanggal"])
+            {
                 if let date = extractDate(from: value) {
                     result.deadline = date
                     result.detectedFields.insert(.deadline)
                 }
 
             } else if matchesKey(k, ["catatan", "notes", "note", "keterangan",
-                                     "info tambahan", "pesan tambahan", "tambahan"]) {
+                                     "info tambahan", "pesan tambahan", "tambahan"])
+            {
                 result.notes = value
                 result.detectedFields.insert(.notes)
 
@@ -246,11 +286,14 @@ extension OrderParser {
     /// Returns true when `line` looks like a bullet list entry (not an address continuation).
     private func isListBullet(_ line: String) -> Bool {
         line.hasPrefix("-") || line.hasPrefix("•") || line.hasPrefix("*") ||
-        line.first?.unicodeScalars.first.map { $0.properties.isEmoji } == true ||
-        line.wholeMatch(of: /^\d+[.)\s]/) != nil
+            line.first?.unicodeScalars.first.map { $0.properties.isEmoji } == true ||
+            line.wholeMatch(of: /^\d+[.)\s]/) != nil
     }
 
     /// Splits `"Key : Value"` or `"Key - Value"` into `(key, value)`.
+    ///
+    /// The key is limited to 2–30 characters and must not contain `:` or `-`.
+    /// This prevents matching on phone numbers or other inline values.
     private func splitKeyValue(_ line: String) -> (String, String)? {
         let pattern = /^([^:\-]{2,30})\s*[:\-]\s*(.+)$/
         guard let match = line.wholeMatch(of: pattern) else { return nil }
@@ -258,6 +301,7 @@ extension OrderParser {
                 String(match.2).trimmingCharacters(in: .whitespaces))
     }
 
+    /// Case-insensitive substring match against a list of known key patterns.
     private func matchesKey(_ key: String, _ patterns: [String]) -> Bool {
         patterns.contains { key.contains($0) }
     }
@@ -266,7 +310,6 @@ extension OrderParser {
 // MARK: - Item Parsing
 
 extension OrderParser {
-
     /// Extracts product lines from bullet, numbered, or emoji-prefixed lists.
     ///
     /// Supported bullet prefixes: `-`, `•`, `*`, emoji (e.g. `🔹`), `1.`, `2)`, etc.
@@ -282,7 +325,8 @@ extension OrderParser {
             } else if let firstScalar = t.unicodeScalars.first, firstScalar.properties.isEmoji {
                 // Strip leading emoji character(s) used as a custom bullet
                 let stripped = t.drop(while: { $0.unicodeScalars.first?.properties.isEmoji == true
-                                               || $0 == " " })
+                        || $0 == " "
+                })
                 content = String(stripped).trimmingCharacters(in: .whitespaces)
             } else {
                 return nil
@@ -294,34 +338,47 @@ extension OrderParser {
 
     /// Parses a single product description into `(name, quantity)`.
     ///
-    /// Pattern priority:
-    /// - **A** `Name × Qty`  — `"Brownies x2"`, `"Kue Lapis X 3"`
-    /// - **B** `Qty × Name`  — `"2x Brownies"`, `"2 Brownies"`
-    /// - **C** `Name Qty [Unit]` — `"Hampers 1 Pcs"`, `"Give card 2 pcs"`
+    /// Pattern priority (most specific → least specific):
+    ///
+    /// | Pattern | Example                      | Result              |
+    /// |---------|------------------------------|---------------------|
+    /// | A       | `"Brownies x2"`, `"Kue X 3"` | `("Brownies", 2)`  |
+    /// | B       | `"2x Brownies"`, `"2 Kue"`   | `("Brownies", 2)`  |
+    /// | C       | `"Hampers 1 Pcs"`            | `("Hampers", 1)`   |
+    /// | D       | `"Brownies"` (no qty)        | `("Brownies", 1)`  |
     ///
     /// Trailing unit keywords are stripped: pcs, buah, box, kotak, loyang, ls, set.
     func parseItemLine(_ text: String) -> (productName: String, quantity: Int)? {
         let t = text.trimmingCharacters(in: .whitespaces)
         guard !t.isEmpty else { return nil }
 
-        // Pattern A: Name × Qty
+        // Pattern A: Name × Qty — "Brownies x2", "Kue Lapis X 3"
         if let m = t.wholeMatch(of: /^(.+?)\s*[xX×]\s*(\d+)$/) {
             let name = String(m.1).trimmingCharacters(in: .whitespaces)
             if !name.isEmpty { return (name, Int(m.2) ?? 1) }
         }
 
-        // Pattern B: Qty × Name
+        // Pattern B: Qty × Name — "2x Brownies", "2 Brownies"
         if let m = t.wholeMatch(of: /^(\d+)\s*[xX×]?\s+(.+)$/) {
             let name = stripUnit(String(m.2).trimmingCharacters(in: .whitespaces))
             if !name.isEmpty { return (name, Int(m.1) ?? 1) }
         }
 
-        // Pattern C: Name Qty [Unit] — greedy name so "Give card 2 Pcs" → ("Give card", 2)
+        // Pattern C: Name Qty [Unit] — "Hampers 1 Pcs", "Give card 2 pcs"
         if let m = t.wholeMatch(of: /^(.+)\s+(\d+)\s*(?i:pcs?|buah|box|kotak|loyang|ls|set)?\s*$/) {
             let name = String(m.1).trimmingCharacters(in: .whitespaces)
             if !name.isEmpty, name.contains(where: { $0.isLetter }) {
                 return (name, Int(m.2) ?? 1)
             }
+        }
+
+        // Pattern D: Name only (no quantity) — "Brownies", "Kue Keju"
+        // Fallback: treat as a single item with quantity 1.
+        // Only matches if the text contains at least one letter (filters
+        // out stray numbers or emoji-only lines).
+        if t.contains(where: { $0.isLetter }) {
+            let name = stripUnit(t)
+            if !name.isEmpty { return (name, 1) }
         }
 
         return nil
@@ -350,31 +407,45 @@ extension OrderParser {
     }
 }
 
-// MARK: - Phone Detection (Layer 2)
+// MARK: - Phone Detection & Sanitisation (Layer 2)
 
 extension OrderParser {
-
-    /// Extracts and normalises the first Indonesian phone number found in `text`.
+    /// Extracts and sanitises the first Indonesian phone number found in `text`.
+    ///
+    /// Uses `NSDataDetector` (Foundation) for locale-aware phone detection,
+    /// then strips all non-digit characters to produce a clean numeric string.
     func extractPhone(from text: String) -> String? {
         let range = NSRange(text.startIndex..., in: text)
         guard let match = phoneDetector?.firstMatch(in: text, options: [], range: range),
               let phone = match.phoneNumber else { return nil }
-        return normalizePhone(phone)
+        let sanitized = sanitizePhone(phone)
+        // Validate: must be 10–15 digits for Indonesian numbers
+        guard sanitized.count >= 10, sanitized.count <= 15 else { return nil }
+        return sanitized
     }
 
-    /// Normalises an Indonesian phone number to the `08xx` local format.
-    func normalizePhone(_ raw: String) -> String {
-        var digits = raw.components(separatedBy: .init(charactersIn: " -()")).joined()
+    /// Strips ALL non-digit characters and normalises to the `08xx` local format.
+    ///
+    /// Handles edge cases like:
+    /// - `"0812-3456-7890"` → `"081234567890"`
+    /// - `"0812198219amamam"` → `"0812198219"` (trailing letters stripped)
+    /// - `"+62812-3456-7890"` → `"081234567890"`
+    /// - `"62812345678"` → `"0812345678"` (auto-add leading zero)
+    func sanitizePhone(_ raw: String) -> String {
+        // Step 1: Keep only digits
+        var digits = raw.filter { $0.isNumber }
+
+        // Step 2: Normalise country code to local format
         if digits.hasPrefix("+62") { digits = "0" + digits.dropFirst(3) }
         else if digits.hasPrefix("62") && digits.count > 10 { digits = "0" + digits.dropFirst(2) }
-        return digits
+
+        return String(digits)
     }
 }
 
 // MARK: - Date Detection (Layer 2)
 
 extension OrderParser {
-
     /// Extracts a deadline date from `text`, normalised to a business-appropriate hour.
     ///
     /// Detection priority:
@@ -386,13 +457,14 @@ extension OrderParser {
     /// - Same-day → 18:00 (gives preparation time)
     /// - Future   → 12:00 noon (standard pre-order pickup time)
     func extractDate(from text: String) -> Date? {
-        if let d = extractHPlusDate(from: text)    { return businessHour(d) }
+        if let d = extractHPlusDate(from: text) { return businessHour(d) }
         if let d = extractRelativeDate(from: text) { return businessHour(d) }
 
         let normalized = normalizeIndonesianMonths(in: text)
         let range = NSRange(normalized.startIndex..., in: normalized)
         if let match = dateDetector?.firstMatch(in: normalized, options: [], range: range),
-           let date = match.date {
+           let date = match.date
+        {
             let valid = date >= Calendar.current.startOfDay(for: Date())
                 ? date
                 : futureDate(from: date)
@@ -411,10 +483,10 @@ extension OrderParser {
     /// Parses Indonesian relative date words.
     private func extractRelativeDate(from text: String) -> Date? {
         let lower = text.lowercased()
-        let cal   = Calendar.current
+        let cal = Calendar.current
         let today = Date()
-        if lower.contains("besok") { return cal.date(byAdding: .day,        value: 1, to: today) }
-        if lower.contains("lusa")  { return cal.date(byAdding: .day,        value: 2, to: today) }
+        if lower.contains("besok") { return cal.date(byAdding: .day, value: 1, to: today) }
+        if lower.contains("lusa") { return cal.date(byAdding: .day, value: 2, to: today) }
         if lower.contains("minggu depan") || lower.contains("pekan depan") {
             return cal.date(byAdding: .weekOfYear, value: 1, to: today)
         }
@@ -425,7 +497,7 @@ extension OrderParser {
     /// - **Same day** → 18:00 (allow preparation time)
     /// - **Future**   → 12:00 noon (standard pre-order delivery/pickup)
     private func businessHour(_ date: Date) -> Date {
-        let cal  = Calendar.current
+        let cal = Calendar.current
         let hour = cal.isDateInToday(date) ? 18 : 12
         return cal.date(bySettingHour: hour, minute: 0, second: 0, of: date) ?? date
     }
@@ -433,15 +505,17 @@ extension OrderParser {
     /// Replaces Indonesian month names with English equivalents for `NSDataDetector`.
     private func normalizeIndonesianMonths(in text: String) -> String {
         let map: [(String, String)] = [
-            ("januari","january"), ("februari","february"), ("maret","march"),
-            ("april","april"),     ("mei","may"),           ("juni","june"),
-            ("juli","july"),       ("agustus","august"),    ("september","september"),
-            ("oktober","october"), ("november","november"), ("desember","december"),
-            ("jan","jan"), ("feb","feb"), ("mar","mar"), ("apr","apr"),
-            ("agu","aug"), ("okt","oct"), ("des","dec")
+            ("januari", "january"), ("februari", "february"), ("maret", "march"),
+            ("april", "april"), ("mei", "may"), ("juni", "june"),
+            ("juli", "july"), ("agustus", "august"), ("september", "september"),
+            ("oktober", "october"), ("november", "november"), ("desember", "december"),
+            ("jan", "jan"), ("feb", "feb"), ("mar", "mar"), ("apr", "apr"),
+            ("agu", "aug"), ("okt", "oct"), ("des", "dec"),
         ]
         var result = text.lowercased()
-        for (id, en) in map { result = result.replacingOccurrences(of: id, with: en) }
+        for (id, en) in map {
+            result = result.replacingOccurrences(of: id, with: en)
+        }
         return result
     }
 
@@ -455,7 +529,6 @@ extension OrderParser {
 // MARK: - Name Extraction (Layer 3 — NLTagger)
 
 extension OrderParser {
-
     /// Extracts the first personal name found in `text` using Apple's on-device ML.
     ///
     /// Used as a Layer 3 fallback when no `"Nama:"` label is detected in Layer 1.
@@ -465,7 +538,7 @@ extension OrderParser {
         tagger.string = text
         var found: String?
         tagger.enumerateTags(
-            in: text.startIndex..<text.endIndex,
+            in: text.startIndex ..< text.endIndex,
             unit: .word,
             scheme: .nameType,
             options: [.omitPunctuation, .omitWhitespace, .joinNames]

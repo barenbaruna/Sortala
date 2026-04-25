@@ -2,22 +2,25 @@
 //  ShareExtensionViewController.swift
 //  SortalaShare
 //
-//  Entry point for the Share Extension. Receives shared text from the iOS
-//  Share Sheet via `NSExtensionItem`, parses it through `OrderParser`, and
-//  presents a SwiftUI review form embedded in a `UIHostingController`.
+//  Entry point for the iOS Share Extension. Receives shared text from the
+//  system Share Sheet via `NSExtensionItem`, parses it through `OrderParser`,
+//  and presents a SwiftUI review form embedded in a `UIHostingController`.
 //
 //  Lifecycle:
-//    1. iOS instantiates this ViewController when user selects "Sortala" in Share Sheet
+//    1. iOS instantiates this ViewController when user selects "Sortala"
 //    2. viewDidLoad → show loading → extract text from NSItemProvider
 //    3. Parse text → present ShareImportView (or error state)
 //    4. User taps Simpan/Batal → completeRequest → iOS returns to host app
+//
+//  Memory constraint: Share Extensions are limited to ~120 MB. The
+//  architecture (extract → parse → present UI) is optimised to remain
+//  well within this budget.
 
 import SwiftData
 import SwiftUI
 import UIKit
 
 final class ShareExtensionViewController: UIViewController {
-
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -25,40 +28,48 @@ final class ShareExtensionViewController: UIViewController {
         view.backgroundColor = .systemBackground
         presentLoadingState()
 
-        extractSharedText { [weak self] text in
-            DispatchQueue.main.async {
-                self?.handleExtractedText(text)
-            }
+        Task { @MainActor in
+            let text = await extractSharedText()
+            handleExtractedText(text)
         }
     }
 
     // MARK: - Text Extraction
 
     /// Walks the extension context's `NSItemProvider` attachments to find the
-    /// first plain-text payload. Calls `completion` with the result.
-    private func extractSharedText(completion: @escaping (String?) -> Void) {
+    /// first plain-text payload.
+    ///
+    /// Uses structured concurrency (`withCheckedContinuation`) to bridge
+    /// the callback-based `NSItemProvider.loadItem` API.
+    private func extractSharedText() async -> String? {
         guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
-            completion(nil)
-            return
+            return nil
         }
 
         for item in items {
             for provider in item.attachments ?? [] {
                 if provider.hasItemConformingToTypeIdentifier("public.plain-text") {
-                    provider.loadItem(forTypeIdentifier: "public.plain-text") { data, _ in
-                        let text = (data as? String) ?? ""
-                        completion(text.isEmpty ? nil : text)
+                    let text: String? = await withCheckedContinuation { continuation in
+                        provider.loadItem(forTypeIdentifier: "public.plain-text") { data, _ in
+                            let result = data as? String
+                            continuation.resume(returning: result)
+                        }
                     }
-                    return
+                    if let text, !text.isEmpty { return text }
                 }
             }
         }
-        completion(nil)
+        return nil
     }
 
     // MARK: - Routing
 
     /// Routes to the correct UI based on extraction result.
+    ///
+    /// > Important: `.tint(.teal)` is NOT applied globally. Only the
+    /// > checkmark (confirm) button uses `.tint(.teal)` — the cancel
+    /// > button must remain system-default per HIG `.cancellationAction`
+    /// > semantics.
     private func handleExtractedText(_ text: String?) {
         guard let rawText = text, !rawText.trimmingCharacters(in: .whitespaces).isEmpty else {
             presentEmptyState()
@@ -70,13 +81,13 @@ final class ShareExtensionViewController: UIViewController {
             return
         }
 
-        let parsed    = OrderParser.shared.parse(rawText)
+        let parsed = OrderParser.shared.parse(rawText)
         let viewModel = OrderImportViewModel(parsedOrder: parsed)
         let importView = ShareImportView(viewModel: viewModel) { [weak self] in
             self?.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
         }
         .modelContainer(container)
-        .tint(.teal)
+        // NO global .tint(.teal) — individual buttons set their own tint
 
         replaceContent(with: importView)
     }
@@ -140,10 +151,10 @@ final class ShareExtensionViewController: UIViewController {
     /// Replaces the current child view controller with a new SwiftUI view.
     /// Removes any previous child before embedding the new one.
     private func replaceContent<V: View>(with swiftUIView: V) {
-        children.forEach {
-            $0.willMove(toParent: nil)
-            $0.view.removeFromSuperview()
-            $0.removeFromParent()
+        for child in children {
+            child.willMove(toParent: nil)
+            child.view.removeFromSuperview()
+            child.removeFromParent()
         }
 
         let hosting = UIHostingController(rootView: swiftUIView)
@@ -170,7 +181,7 @@ final class ShareExtensionViewController: UIViewController {
         ) else { return nil }
 
         let storeURL = groupURL.appendingPathComponent("Sortala.sqlite")
-        let schema   = Schema([Order.self, OrderItem.self])
+        let schema = Schema([Order.self, OrderItem.self])
         do {
             let config = ModelConfiguration(url: storeURL)
             return try ModelContainer(for: schema, configurations: [config])

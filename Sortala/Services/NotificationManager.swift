@@ -36,7 +36,7 @@ enum NotificationManager {
     static func scheduleDeadlineReminder(for order: Order) async {
         let status = await checkStatus()
         guard status == .authorized || status == .provisional else { return }
-        
+
         let triggerDate = order.deadline.addingTimeInterval(-3600)
         guard triggerDate > Date() else { return }
 
@@ -87,37 +87,37 @@ enum NotificationManager {
     static func updateEveningRadar(modelContext: ModelContext) async {
         let descriptor = FetchDescriptor<Order>()
         guard let orders = try? modelContext.fetch(descriptor) else { return }
-        
+
         let pendingOrders = orders.filter { $0.status == .baru || $0.status == .diproses }
         let calendar = Calendar.current
         let today = Date()
-        
+
         let tomorrowOrders = pendingOrders.filter { calendar.isDateInTomorrow($0.deadline) }
-        
+
         let day2Start = calendar.date(byAdding: .day, value: 2, to: calendar.startOfDay(for: today)) ?? today
         let day7End = calendar.date(byAdding: .day, value: 8, to: calendar.startOfDay(for: today)) ?? today
         let next7DaysOrders = pendingOrders.filter { $0.deadline >= day2Start && $0.deadline < day7End }
-        
+
         let countsTomorrow = tomorrowOrders.count
         let countsNext7 = next7DaysOrders.count
-        
+
         guard countsTomorrow > 0 || countsNext7 > 0 else {
             UNUserNotificationCenter.current().removePendingNotificationRequests(withIdentifiers: ["evening_radar"])
             return
         }
-        
+
         let content = UNMutableNotificationContent()
         content.title = "Rangkuman Target Produksi"
         content.body = countsNext7 > 0 ? "Terdapat \(countsTomorrow) pesanan tenggat besok, dan \(countsNext7) pesanan pada minggu ini. Cek daftar untuk persiapan." : "Terdapat \(countsTomorrow) pesanan tenggat besok. Cek daftar untuk persiapan."
         content.sound = .default
-        
+
         var dateComponents = DateComponents()
         dateComponents.hour = 20
         dateComponents.minute = 0
-        
+
         let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
         let request = UNNotificationRequest(identifier: "evening_radar", content: content, trigger: trigger)
-        
+
         do {
             try await UNUserNotificationCenter.current().add(request)
             logger.info("Successfully scheduled Evening Radar")
@@ -138,10 +138,10 @@ enum NotificationManager {
         center.getNotificationSettings { settings in
             guard settings.authorizationStatus == .authorized else { return }
 
-            let content        = UNMutableNotificationContent()
-            content.title      = "Sortala"
-            content.body       = "Pesanan \(customerName) berhasil disimpan."
-            content.sound      = .default
+            let content = UNMutableNotificationContent()
+            content.title = "Sortala"
+            content.body = "Pesanan \(customerName) berhasil disimpan."
+            content.sound = .default
 
             let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
             let request = UNNotificationRequest(

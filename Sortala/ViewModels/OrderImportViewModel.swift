@@ -2,12 +2,14 @@
 //  OrderImportViewModel.swift
 //  Sortala
 //
-//  ViewModel for the clipboard import review sheet (MVVM pattern).
-//  Owns all business logic for `OrderImportPreviewView`, keeping the view
-//  as a pure binding layer.
+//  Business logic for the Clipboard Import and Share Extension review sheets.
 //
-//  Uses `@Observable` (iOS 17+) for granular SwiftUI property tracking
-//  without requiring individual `@Published` declarations.
+//  Owns all state, validation, and persistence logic, keeping the views as
+//  pure binding layers. Uses `@Observable` for granular SwiftUI property
+//  tracking without requiring individual `@Published` declarations.
+//
+//  Shared by both `ClipboardImportView` (main app) and `ShareImportView`
+//  (Share Extension) to guarantee identical behaviour across import flows.
 
 import Observation
 import SwiftData
@@ -15,11 +17,10 @@ import SwiftUI
 
 @Observable
 final class OrderImportViewModel {
-
     // MARK: - Source
 
-    /// The original parsed result. Used for dirty-checking and as the badge source
-    /// (which fields were auto-detected vs. manually entered).
+    /// The original parsed result. Used for dirty-checking and as the badge
+    /// source (which fields were auto-detected vs. manually entered).
     let parsedOrder: ParsedOrder
 
     // MARK: - Form State
@@ -42,15 +43,15 @@ final class OrderImportViewModel {
 
     init(parsedOrder: ParsedOrder) {
         self.parsedOrder = parsedOrder
-        customerName   = parsedOrder.customerName ?? ""
+        customerName = parsedOrder.customerName ?? ""
         whatsappNumber = parsedOrder.whatsappNumber ?? ""
-        address        = parsedOrder.address ?? ""
-        items          = parsedOrder.items.isEmpty
+        address = parsedOrder.address ?? ""
+        items = parsedOrder.items.isEmpty
             ? [DraftItem()]
             : parsedOrder.items.map { DraftItem(productName: $0.productName, quantity: $0.quantity) }
-        deadline       = parsedOrder.deadline ?? Self.defaultDeadline
-        orderSource    = parsedOrder.orderSource
-        notes          = parsedOrder.notes ?? ""
+        deadline = parsedOrder.deadline ?? Self.defaultDeadline
+        orderSource = parsedOrder.orderSource
+        notes = parsedOrder.notes ?? ""
     }
 
     // MARK: - Validation
@@ -58,28 +59,43 @@ final class OrderImportViewModel {
     /// All required fields (name + at least one product) are present.
     var isFormValid: Bool {
         !customerName.trimmed.isEmpty &&
-        items.contains { !$0.productName.trimmed.isEmpty }
+            items.contains { !$0.productName.trimmed.isEmpty }
     }
 
     // MARK: - Reactive Confidence
-    //
-    // Computed from *current* form state so the confidence bar and percentage
-    // animate as the user fills in or clears fields.
-    //
-    // Weight table (must sum to 1.0):
-    //   items    0.35  — most critical for the order to make sense
-    //   name     0.30  — required for customer identification
-    //   deadline 0.20  — needed for scheduling
-    //   phone    0.10  — needed for WhatsApp follow-up
-    //   source   0.05  — always present (has a default)
 
+    /// Computed from *current* form state so the confidence bar and percentage
+    /// animate as the user fills in or clears fields.
+    ///
+    /// Weight table (sums to 1.0):
+    ///
+    /// | Field    | Weight | Rationale                        |
+    /// |----------|--------|----------------------------------|
+    /// | items    | 0.30   | Most critical for order meaning  |
+    /// | name     | 0.25   | Required for customer ID         |
+    /// | deadline | 0.15   | Needed for scheduling            |
+    /// | phone    | 0.10   | Needed for WhatsApp follow-up    |
+    /// | address  | 0.10   | Delivery/pickup location         |
+    /// | notes    | 0.05   | Optional extra context           |
+    /// | source   | 0.05   | Channel the order arrived from   |
     var currentConfidence: Double {
-        var score = 0.05
-        if !customerName.trimmed.isEmpty                                   { score += 0.30 }
-        if items.contains(where: { !$0.productName.trimmed.isEmpty })      { score += 0.35 }
-        if deadline > Date()                                               { score += 0.20 }
-        if !whatsappNumber.trimmed.isEmpty                                 { score += 0.10 }
+        var score = 0.0
+        if !customerName.trimmed.isEmpty { score += 0.25 }
+        if items.contains(where: { !$0.productName.trimmed.isEmpty }) { score += 0.30 }
+        if deadline > Date() { score += 0.15 }
+        if !whatsappNumber.trimmed.isEmpty { score += 0.10 }
+        if !address.trimmed.isEmpty { score += 0.10 }
+        if !notes.trimmed.isEmpty { score += 0.05 }
+        // Source counts toward confidence only when auto-detected or when
+        // the user has explicitly chosen a source other than .lainnya.
+        if sourceIsConfirmed { score += 0.05 }
         return min(score, 1.0)
+    }
+
+    /// Whether the order source has been confirmed (either auto-detected
+    /// by the parser, or manually changed by the user from the default).
+    var sourceIsConfirmed: Bool {
+        parsedOrder.detectedFields.contains(.source) || orderSource != .lainnya
     }
 
     var confidenceColor: Color {
@@ -109,12 +125,14 @@ final class OrderImportViewModel {
     // MARK: - Order Source Hint
 
     /// Contextual hint below the source picker.
-    /// Shows "Terdeteksi otomatis" when the parser inferred the source,
-    /// otherwise prompts the user to verify.
+    ///
+    /// When the parser successfully detected the source from keywords,
+    /// shows "Terdeteksi otomatis". Otherwise, prompts the user to verify.
     var sourceHint: String {
-        parsedOrder.detectedFields.contains(.source)
-            ? "Terdeteksi otomatis dari teks."
-            : "Periksa dan sesuaikan sumber pesanan ini."
+        if parsedOrder.detectedFields.contains(.source) {
+            return "Terdeteksi otomatis dari teks."
+        }
+        return "Pilih sumber pesanan yang benar."
     }
 
     // MARK: - Dirty Check
@@ -122,23 +140,23 @@ final class OrderImportViewModel {
     /// True when the user has modified any parser-filled value.
     /// Used to gate interactive swipe-dismiss and show the cancel confirmation.
     var hasEdited: Bool {
-        customerName   != (parsedOrder.customerName ?? "")   ||
-        whatsappNumber != (parsedOrder.whatsappNumber ?? "") ||
-        address        != (parsedOrder.address ?? "")        ||
-        notes          != (parsedOrder.notes ?? "")          ||
-        orderSource    != parsedOrder.orderSource            ||
-        !Calendar.current.isDate(
-            deadline,
-            equalTo: parsedOrder.deadline ?? Self.defaultDeadline,
-            toGranularity: .minute
-        )
+        customerName != (parsedOrder.customerName ?? "") ||
+            whatsappNumber != (parsedOrder.whatsappNumber ?? "") ||
+            address != (parsedOrder.address ?? "") ||
+            notes != (parsedOrder.notes ?? "") ||
+            orderSource != parsedOrder.orderSource ||
+            !Calendar.current.isDate(
+                deadline,
+                equalTo: parsedOrder.deadline ?? Self.defaultDeadline,
+                toGranularity: .minute
+            )
     }
 
     // MARK: - Default Deadline
 
     /// 12:00 noon tomorrow — shared by both clipboard import and the manual form.
     static var defaultDeadline: Date {
-        let cal      = Calendar.current
+        let cal = Calendar.current
         let tomorrow = cal.date(byAdding: .day, value: 1, to: Date()) ?? Date()
         return cal.date(bySettingHour: 12, minute: 0, second: 0, of: tomorrow) ?? tomorrow
     }
@@ -153,7 +171,7 @@ final class OrderImportViewModel {
     @discardableResult
     func saveOrder(context: ModelContext) async -> Bool {
         let trimmedName = customerName.trimmed
-        let validItems  = items.filter { !$0.productName.trimmed.isEmpty }
+        let validItems = items.filter { !$0.productName.trimmed.isEmpty }
         guard !trimmedName.isEmpty, !validItems.isEmpty else { return false }
 
         let newOrder = Order(
@@ -183,11 +201,4 @@ final class OrderImportViewModel {
 
         return true
     }
-}
-
-// MARK: - String.trimmed
-
-private extension String {
-    /// Convenience for `trimmingCharacters(in: .whitespaces)`.
-    var trimmed: String { trimmingCharacters(in: .whitespaces) }
 }

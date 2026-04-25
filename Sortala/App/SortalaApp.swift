@@ -8,7 +8,6 @@ import SwiftUI
 
 @main
 struct SortalaApp: App {
-
     var sharedModelContainer: ModelContainer = Self.makeSharedContainer()
 
     var body: some Scene {
@@ -28,7 +27,7 @@ struct SortalaApp: App {
     // MARK: - Container Setup
 
     /// Builds a ModelContainer backed by the App Group shared directory.
-    /// This enables the Share Extension (Phase 3) to read/write the same store.
+    /// This enables the Share Extension to read/write the same store.
     /// Includes a one-time migration of any legacy default.store.
     private static func makeSharedContainer() -> ModelContainer {
         let schema = Schema([Order.self, OrderItem.self])
