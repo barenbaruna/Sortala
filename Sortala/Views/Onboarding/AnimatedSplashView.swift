@@ -13,6 +13,9 @@ import SwiftUI
 /// to `RootRouter` which handles onboarding/tutorial/home routing.
 /// This view contains NO routing logic — it is animation-only.
 struct AnimatedSplashView: View {
+    @Binding private var deepLinkedOrderID: UUID?
+    @Binding private var shouldPresentAddOrder: Bool
+
     @State private var isAnimationFinished = false
     @State private var logoScale: CGFloat = 1.0
     @State private var textOpacity: Double = 0.0
@@ -21,9 +24,20 @@ struct AnimatedSplashView: View {
     /// Scales with Dynamic Type for accessibility.
     @ScaledMetric(relativeTo: .largeTitle) private var logoSize: CGFloat = 100
 
+    init(
+        deepLinkedOrderID: Binding<UUID?> = .constant(nil),
+        shouldPresentAddOrder: Binding<Bool> = .constant(false)
+    ) {
+        _deepLinkedOrderID = deepLinkedOrderID
+        _shouldPresentAddOrder = shouldPresentAddOrder
+    }
+
     var body: some View {
         if isAnimationFinished {
-            RootRouter()
+            RootRouter(
+                deepLinkedOrderID: $deepLinkedOrderID,
+                shouldPresentAddOrder: $shouldPresentAddOrder
+            )
         } else {
             splashAnimation
                 .task { await runSplashAnimation() }

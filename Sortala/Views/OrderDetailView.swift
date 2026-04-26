@@ -16,6 +16,9 @@ struct OrderDetailView: View {
 
     @State private var showEditSheet = false
     @State private var showDeleteConfirmation = false
+    @State private var showPersistenceAlert = false
+    @State private var persistenceAlertMessage = ""
+    @State private var isRollingBackStatus = false
 
     // MARK: - Body
 
@@ -162,15 +165,42 @@ struct OrderDetailView: View {
         }
         .alert("Hapus Pesanan?", isPresented: $showDeleteConfirmation) {
             Button("Hapus", role: .destructive) {
-                NotificationManager.cancelReminder(for: order)
+                let orderID = order.id
                 modelContext.delete(order)
-                dismiss()
+                do {
+                    try modelContext.save()
+                    NotificationManager.cancelReminder(for: orderID)
+                    SortalaWidgetReloader.reloadTimelines()
+                    dismiss()
+                } catch {
+                    modelContext.rollback()
+                    showPersistenceFailure("Pesanan belum terhapus. Coba lagi.")
+                }
             }
             Button("Batal", role: .cancel) {}
         } message: {
             Text("Pesanan \(order.customerName) akan dihapus permanen.")
         }
+        .alert("Tidak Dapat Menyimpan", isPresented: $showPersistenceAlert) {
+            Button("OK") {}
+        } message: {
+            Text(persistenceAlertMessage)
+        }
         .onChange(of: order.status) { _, newStatus in
+            if isRollingBackStatus {
+                isRollingBackStatus = false
+                return
+            }
+
+            do {
+                try modelContext.save()
+            } catch {
+                isRollingBackStatus = true
+                modelContext.rollback()
+                showPersistenceFailure("Status belum diperbarui. Coba lagi.")
+                return
+            }
+
             if newStatus == .selesai {
                 NotificationManager.cancelReminder(for: order)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -178,7 +208,17 @@ struct OrderDetailView: View {
                 UIImpactFeedbackGenerator(style: .light).impactOccurred()
                 Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
             }
+            Task {
+                await NotificationManager.updateEveningRadar(modelContext: modelContext)
+                SortalaWidgetReloader.reloadTimelines()
+            }
         }
+    }
+
+    private func showPersistenceFailure(_ message: String) {
+        persistenceAlertMessage = message
+        showPersistenceAlert = true
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
 }
 

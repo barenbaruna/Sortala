@@ -20,6 +20,7 @@ struct ShareImportView: View {
     @Environment(\.modelContext) private var modelContext
 
     @State var viewModel: OrderImportViewModel
+    @State private var showSaveError = false
     let onDismiss: () -> Void
 
     // MARK: - Body
@@ -48,6 +49,11 @@ struct ShareImportView: View {
             } message: {
                 Text("Data yang sudah kamu edit tidak akan disimpan.")
             }
+            .alert("Tidak Dapat Menyimpan", isPresented: $showSaveError) {
+                Button("OK") {}
+            } message: {
+                Text("Pesanan belum disimpan. Coba lagi sebelum menutup halaman ini.")
+            }
         }
         .interactiveDismissDisabled(viewModel.hasEdited)
     }
@@ -74,6 +80,8 @@ struct ShareImportView: View {
                             customerName: viewModel.customerName
                         )
                         onDismiss()
+                    } else {
+                        showSaveError = true
                     }
                 }
             }

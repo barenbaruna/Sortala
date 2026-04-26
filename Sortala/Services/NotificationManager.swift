@@ -74,9 +74,14 @@ enum NotificationManager {
 
     /// Cancels a pending reminder. Called when order is completed or deleted.
     static func cancelReminder(for order: Order) {
+        cancelReminder(for: order.id)
+    }
+
+    /// Cancels a pending reminder by stable order identifier.
+    static func cancelReminder(for orderID: UUID) {
         UNUserNotificationCenter.current()
             .removePendingNotificationRequests(
-                withIdentifiers: [order.id.uuidString]
+                withIdentifiers: [orderID.uuidString]
             )
     }
 

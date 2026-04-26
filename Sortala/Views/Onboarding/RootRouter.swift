@@ -17,9 +17,23 @@ struct RootRouter: View {
     @AppStorage("hasSeenOnboarding") private var hasSeenOnboarding = false
     @AppStorage("hasCompletedTutorial") private var hasCompletedTutorial = false
 
+    @Binding private var deepLinkedOrderID: UUID?
+    @Binding private var shouldPresentAddOrder: Bool
+
+    init(
+        deepLinkedOrderID: Binding<UUID?> = .constant(nil),
+        shouldPresentAddOrder: Binding<Bool> = .constant(false)
+    ) {
+        _deepLinkedOrderID = deepLinkedOrderID
+        _shouldPresentAddOrder = shouldPresentAddOrder
+    }
+
     var body: some View {
         if hasSeenOnboarding && hasCompletedTutorial {
-            HomeView()
+            HomeView(
+                deepLinkedOrderID: $deepLinkedOrderID,
+                shouldPresentAddOrder: $shouldPresentAddOrder
+            )
         } else if hasSeenOnboarding {
             GuidedTutorialView()
         } else {

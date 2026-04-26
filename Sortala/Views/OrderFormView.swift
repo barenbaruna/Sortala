@@ -25,6 +25,7 @@ struct OrderFormView: View {
     @State private var notes = ""
     @State private var status: OrderStatus = .baru
     
+    @State private var alertTitle = "Perlu Dilengkapi"
     @State private var showValidationError = false
     @State private var validationMessage = ""
     @State private var selectedPresetDays: Int?
@@ -214,7 +215,7 @@ struct OrderFormView: View {
                     .disabled(isEditMode && !hasChanges)
                 }
             }
-            .alert("Perlu Dilengkapi", isPresented: $showValidationError) {
+            .alert(alertTitle, isPresented: $showValidationError) {
                 Button("OK") {}
             } message: {
                 Text(validationMessage)
@@ -285,6 +286,7 @@ struct OrderFormView: View {
     
     private func saveOrder() {
         guard !customerName.trimmingCharacters(in: .whitespaces).isEmpty else {
+            alertTitle = "Perlu Dilengkapi"
             validationMessage = "Nama pelanggan tidak boleh kosong."
             showValidationError = true
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
@@ -292,12 +294,16 @@ struct OrderFormView: View {
         }
         
         guard items.contains(where: { !$0.productName.isEmpty }) else {
+            alertTitle = "Perlu Dilengkapi"
             validationMessage = "Tambahkan minimal satu produk."
             showValidationError = true
             UINotificationFeedbackGenerator().notificationOccurred(.warning)
             return
         }
         
+        let savedOrder: Order
+        let didEditExistingOrder: Bool
+
         if let order = existingOrder {
             order.customerName = customerName
             order.whatsappNumber = whatsappNumber
@@ -316,13 +322,9 @@ struct OrderFormView: View {
                 order.items.append(item)
                 modelContext.insert(item)
             }
-            
-            // Reschedule notification for updated deadline
-            NotificationManager.cancelReminder(for: order)
-            Task {
-                await NotificationManager.scheduleDeadlineReminder(for: order)
-                await NotificationManager.updateEveningRadar(modelContext: modelContext)
-            }
+
+            savedOrder = order
+            didEditExistingOrder = true
         } else {
             let newOrder = Order(
                 customerName: customerName,
@@ -340,17 +342,35 @@ struct OrderFormView: View {
             }
             
             modelContext.insert(newOrder)
-            
-            // Context-driven: request permission on first save, then schedule
-            Task {
+
+            savedOrder = newOrder
+            didEditExistingOrder = false
+        }
+
+        do {
+            try modelContext.save()
+        } catch {
+            alertTitle = "Tidak Dapat Menyimpan"
+            validationMessage = "Pesanan belum disimpan. Coba lagi sebelum menutup halaman ini."
+            showValidationError = true
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+
+        Task {
+            if didEditExistingOrder {
+                NotificationManager.cancelReminder(for: savedOrder)
+            } else {
                 _ = await NotificationManager.requestPermission()
-                await NotificationManager.scheduleDeadlineReminder(for: newOrder)
-                await NotificationManager.updateEveningRadar(modelContext: modelContext)
             }
+            if savedOrder.status != .selesai {
+                await NotificationManager.scheduleDeadlineReminder(for: savedOrder)
+            }
+            await NotificationManager.updateEveningRadar(modelContext: modelContext)
+            SortalaWidgetReloader.reloadTimelines()
         }
         
         UINotificationFeedbackGenerator().notificationOccurred(.success)
-        
         dismiss()
     }
 }

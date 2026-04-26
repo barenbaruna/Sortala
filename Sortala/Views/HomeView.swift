@@ -37,6 +37,9 @@ struct HomeView: View {
     private var allOrders: [Order]
     
     @Environment(\.modelContext) private var modelContext
+
+    @Binding private var deepLinkedOrderID: UUID?
+    @Binding private var shouldPresentAddOrder: Bool
     
     @State private var selectedFilter: OrderFilter = .semua
     @State private var searchText: String = ""
@@ -45,6 +48,10 @@ struct HomeView: View {
     @State private var showDeleteAlert = false
     @State private var orderToAdvance: Order?
     @State private var showAdvanceConfirm = false
+    @State private var navigationPath: [UUID] = []
+    @State private var persistenceAlertTitle = ""
+    @State private var persistenceAlertMessage = ""
+    @State private var showPersistenceAlert = false
 
     /// Namespace for zoom navigation transitions (Apple Wishlist pattern).
     @Namespace private var namespace
@@ -56,6 +63,14 @@ struct HomeView: View {
     // condition where the sheet opened before parsedImportResult was set.
     @State private var parsedImportResult: ParsedOrder? = nil
     @State private var hasPasteboardString = UIPasteboard.general.hasStrings
+
+    init(
+        deepLinkedOrderID: Binding<UUID?> = .constant(nil),
+        shouldPresentAddOrder: Binding<Bool> = .constant(false)
+    ) {
+        _deepLinkedOrderID = deepLinkedOrderID
+        _shouldPresentAddOrder = shouldPresentAddOrder
+    }
     
     // MARK: Filtering
     
@@ -93,7 +108,7 @@ struct HomeView: View {
     // MARK: Body
     
     var body: some View {
-        NavigationStack {
+        NavigationStack(path: $navigationPath) {
             List {
                 if !allOrders.isEmpty {
                     filterSection
@@ -141,14 +156,36 @@ struct HomeView: View {
             .sheet(item: $parsedImportResult) { result in
                 ClipboardImportView(parsedOrder: result)
             }
+            .navigationDestination(for: UUID.self) { orderID in
+                if let order = allOrders.first(where: { $0.id == orderID }) {
+                    OrderDetailView(order: order)
+                        .navigationTransition(.zoom(sourceID: order.id, in: namespace))
+                } else {
+                    ContentUnavailableView(
+                        "Pesanan Tidak Ditemukan",
+                        systemImage: "tray",
+                        description: Text("Pesanan ini mungkin sudah dihapus atau belum selesai dimuat.")
+                    )
+                }
+            }
             .alert("Hapus Pesanan?", isPresented: $showDeleteAlert) {
                 Button("Hapus", role: .destructive) {
                     if let order = orderToDelete {
-                        NotificationManager.cancelReminder(for: order)
+                        let orderID = order.id
                         withAnimation {
                             modelContext.delete(order)
                         }
-                        Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
+                        do {
+                            try modelContext.save()
+                            NotificationManager.cancelReminder(for: orderID)
+                            Task {
+                                await NotificationManager.updateEveningRadar(modelContext: modelContext)
+                                SortalaWidgetReloader.reloadTimelines()
+                            }
+                        } catch {
+                            modelContext.rollback()
+                            showPersistenceFailure("Pesanan belum terhapus. Coba lagi.")
+                        }
                     }
                     orderToDelete = nil
                 }
@@ -172,12 +209,26 @@ struct HomeView: View {
                     Text("Status \(order.customerName) akan diubah dari \(order.status.rawValue) ke \(next.rawValue).")
                 }
             }
+            .alert(persistenceAlertTitle, isPresented: $showPersistenceAlert) {
+                Button("OK") {}
+            } message: {
+                Text(persistenceAlertMessage)
+            }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)) { _ in
             hasPasteboardString = UIPasteboard.general.hasStrings
         }
         .onReceive(NotificationCenter.default.publisher(for: UIApplication.didBecomeActiveNotification)) { _ in
             hasPasteboardString = UIPasteboard.general.hasStrings
+        }
+        .onAppear {
+            handlePendingDeepLinks()
+        }
+        .onChange(of: deepLinkedOrderID) {
+            handlePendingDeepLinks()
+        }
+        .onChange(of: shouldPresentAddOrder) {
+            handlePendingDeepLinks()
         }
     }
     
@@ -237,10 +288,7 @@ struct HomeView: View {
         ForEach(groupedOrders, id: \.date) { group in
             Section {
                 ForEach(group.orders) { order in
-                    NavigationLink {
-                        OrderDetailView(order: order)
-                            .navigationTransition(.zoom(sourceID: order.id, in: namespace))
-                    } label: {
+                    NavigationLink(value: order.id) {
                         OrderRowView(order: order, showStatus: showStatusBadge)
                             .matchedTransitionSource(id: order.id, in: namespace)
                     }
@@ -341,6 +389,16 @@ struct HomeView: View {
     /// Advances an order's status and handles notification + haptic side-effects.
     private func advanceStatus(of order: Order, to next: OrderStatus) {
         withAnimation { order.status = next }
+
+        do {
+            try modelContext.save()
+        } catch {
+            modelContext.rollback()
+            showPersistenceFailure("Status belum diperbarui. Coba lagi.")
+            orderToAdvance = nil
+            return
+        }
+
         if next == .selesai {
             NotificationManager.cancelReminder(for: order)
             UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -348,8 +406,30 @@ struct HomeView: View {
             UIImpactFeedbackGenerator(style: .light).impactOccurred()
             Task { await NotificationManager.scheduleDeadlineReminder(for: order) }
         }
-        Task { await NotificationManager.updateEveningRadar(modelContext: modelContext) }
+        Task {
+            await NotificationManager.updateEveningRadar(modelContext: modelContext)
+            SortalaWidgetReloader.reloadTimelines()
+        }
         orderToAdvance = nil
+    }
+
+    private func handlePendingDeepLinks() {
+        if let orderID = deepLinkedOrderID {
+            navigationPath = [orderID]
+            deepLinkedOrderID = nil
+        }
+
+        if shouldPresentAddOrder {
+            showAddOrder = true
+            shouldPresentAddOrder = false
+        }
+    }
+
+    private func showPersistenceFailure(_ message: String) {
+        persistenceAlertTitle = "Tidak Dapat Menyimpan"
+        persistenceAlertMessage = message
+        showPersistenceAlert = true
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
     
     private func sectionHeaderColor(for date: Date) -> Color {

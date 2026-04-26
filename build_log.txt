@@ -1,0 +1,685 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project Sortala.xcodeproj -scheme SortalaWidgetExtension -destination "platform=iOS Simulator,name=iPhone 17 Pro" clean build
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+** CLEAN SUCCEEDED **
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (3 targets)
+    Target 'Sortala' in project 'Sortala'
+        ➜ Explicit dependency on target 'SortalaShare' in project 'Sortala'
+        ➜ Explicit dependency on target 'SortalaWidgetExtension' in project 'Sortala'
+    Target 'SortalaShare' in project 'Sortala' (no dependencies)
+    Target 'SortalaWidgetExtension' in project 'Sortala' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /Users/barenbaruna/Sortala/Sortala/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+Build description signature: 6dff334cb82c153449fb4765c06c81b0
+Build description path: /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/XCBuildData/6dff334cb82c153449fb4765c06c81b0.xcbuilddata
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    builtin-create-build-directory /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphonesimulator
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala-ff63d57e67b051ec7be16cd648fa3358-VFS-iphonesimulator/all-product-headers.yaml
+    cd /Users/barenbaruna/Sortala/Sortala.xcodeproj
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala-ff63d57e67b051ec7be16cd648fa3358-VFS-iphonesimulator/all-product-headers.yaml
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-own-target-headers.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/empty-SortalaWidgetExtension.plist (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/empty-SortalaWidgetExtension.plist
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-project-headers.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-project-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-target-headers.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-non-framework-target-headers.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/Entitlements-Simulated.plist (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.DependencyStaticMetadataFileList (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.DependencyMetadataFileList (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-generated-files.hmap (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-generated-files.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugEntryPoint-normal-arm64.txt (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugEntryPoint-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugDylibPath-normal-arm64.txt (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugDylibInstallName-normal-arm64.txt (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.SwiftFileList (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.SwiftFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension_const_extract_protocols.json (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.SwiftConstValuesFileList (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.LinkFileList (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.LinkFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-OutputFileMap.json (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.DependencyMetadataFileList (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.DependencyStaticMetadataFileList (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-project-headers.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-project-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-own-target-headers.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-generated-files.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-generated-files.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-target-headers.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-non-framework-target-headers.hmap (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugEntryPoint-normal-arm64.txt (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugEntryPoint-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugDylibPath-normal-arm64.txt (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugDylibInstallName-normal-arm64.txt (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftFileList (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare_const_extract_protocols.json (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftConstValuesFileList (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.LinkFileList (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.LinkFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-OutputFileMap.json (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/Entitlements-Simulated.plist (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/Entitlements-Simulated.plist
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.DependencyStaticMetadataFileList (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.DependencyMetadataFileList (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala.DependencyMetadataFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-own-target-headers.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-own-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-generated-files.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-generated-files.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-project-headers.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-project-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-all-target-headers.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-all-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-all-non-framework-target-headers.hmap (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-DebugDylibPath-normal-arm64.txt (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-DebugDylibInstallName-normal-arm64.txt (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Sortala-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala_const_extract_protocols.json (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala_const_extract_protocols.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.SwiftFileList (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.SwiftFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.SwiftConstValuesFileList (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.LinkFileList (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala.LinkFileList
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala-OutputFileMap.json (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/Objects-normal/arm64/Sortala-OutputFileMap.json
+
+WriteAuxiliaryFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/DerivedSources/Entitlements-Simulated.plist (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    write-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/Sortala.build/DerivedSources/Entitlements-Simulated.plist
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/Sortala.app/PlugIns (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/Sortala.app/PlugIns
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/Sortala.app (in target 'Sortala' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/Sortala.app
+
+ProcessProductPackaging /Users/barenbaruna/Sortala/SortalaWidgetExtension.entitlements /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "V36823696A.com.barenbaruna.Sortala.SortalaWidget";
+    "com.apple.security.application-groups" =     (
+        "group.com.barenbaruna.Sortala"
+    );
+}
+    
+    builtin-productPackagingUtility /Users/barenbaruna/Sortala/SortalaWidgetExtension.entitlements -entitlements -format xml -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent
+
+ProcessProductPackaging /Users/barenbaruna/Sortala/SortalaShare/SortalaShare.entitlements /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/barenbaruna/Sortala/SortalaShare/SortalaShare.entitlements -entitlements -format xml -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent
+
+ProcessProductPackaging /Users/barenbaruna/Sortala/SortalaWidgetExtension.entitlements /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+    Entitlements:
+    
+    {
+}
+    
+    builtin-productPackagingUtility /Users/barenbaruna/Sortala/SortalaWidgetExtension.entitlements -entitlements -format xml -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent
+
+ProcessProductPackaging /Users/barenbaruna/Sortala/SortalaShare/SortalaShare.entitlements /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+    Entitlements:
+    
+    {
+    "application-identifier" = "V36823696A.com.barenbaruna.Sortala.SortalaShare";
+    "com.apple.security.application-groups" =     (
+        "group.com.barenbaruna.Sortala"
+    );
+}
+    
+    builtin-productPackagingUtility /Users/barenbaruna/Sortala/SortalaShare/SortalaShare.entitlements -entitlements -format xml -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent
+
+ProcessProductPackagingDER /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent.der (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /usr/bin/derq query -f xml -i /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex.xcent.der --raw
+
+ProcessProductPackagingDER /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent.der (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /usr/bin/derq query -f xml -i /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex.xcent.der --raw
+
+ProcessProductPackagingDER /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent.der (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /usr/bin/derq query -f xml -i /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent.der --raw
+
+ProcessProductPackagingDER /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent.der (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /usr/bin/derq query -f xml -i /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent.der --raw
+
+Ld /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex/__preview.dylib normal (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.4-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -O0 -L/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -install_name @rpath/SortalaWidgetExtension.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension.appex-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex/__preview.dylib
+
+GenerateAssetSymbols /Users/barenbaruna/Sortala/SortalaWidget/Assets.xcassets (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/barenbaruna/Sortala/SortalaWidget/Assets.xcassets --compile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex --output-format human-readable-text --notices --warnings --export-dependency-info /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_dependencies --output-partial-info-plist /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.4 --platform iphonesimulator --bundle-identifier com.barenbaruna.Sortala.SortalaWidget --generate-swift-asset-symbols /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/thinned (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/thinned
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/unthinned (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/unthinned
+
+CompileAssetCatalogVariant thinned /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex /Users/barenbaruna/Sortala/SortalaWidget/Assets.xcassets (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/barenbaruna/Sortala/SortalaWidget/Assets.xcassets --compile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist_thinned --accent-color AccentColor --widget-background-color WidgetBackground --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --filter-for-thinning-device-configuration iPhone18,1 --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.4 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist_thinned
+
+
+Ld /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex/__preview.dylib normal (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios26.4-simulator -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -O0 -L/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -install_name @rpath/SortalaShare.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -no_deduplicate -Xlinker -objc_abi_version -Xlinker 2 -Xlinker -dependency_info -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare_dependency_info.dat -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __entitlements -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __ents_der -Xlinker /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare.appex-Simulated.xcent.der -Xlinker -no_adhoc_codesign -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex/__preview.dylib
+
+GenerateAssetSymbols /Users/barenbaruna/Sortala/Sortala/Assets.xcassets (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/barenbaruna/Sortala/Sortala/Assets.xcassets --compile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex --output-format human-readable-text --notices --warnings --export-dependency-info /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_dependencies --output-partial-info-plist /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_generated_info.plist --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.4 --platform iphonesimulator --bundle-identifier com.barenbaruna.Sortala.SortalaShare --generate-swift-asset-symbols /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.h
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/thinned (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/thinned
+
+MkDir /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/unthinned (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /bin/mkdir -p /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/unthinned
+
+CompileAssetCatalogVariant thinned /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaShare.appex /Users/barenbaruna/Sortala/Sortala/Assets.xcassets (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /Users/barenbaruna/Sortala/Sortala/Assets.xcassets --compile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_dependencies_thinned --output-partial-info-plist /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_generated_info.plist_thinned --compress-pngs --enable-on-demand-resources NO --standalone-icon-behavior all --filter-for-thinning-device-configuration iPhone18,1 --filter-for-device-os-version 26.4.1 --development-region en --target-device iphone --target-device ipad --minimum-deployment-target 26.4 --platform iphonesimulator
+/* com.apple.actool.compilation-results */
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_generated_info.plist_thinned
+/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/assetcatalog_output/thinned/Assets.car
+
+
+LinkAssetCatalog /Users/barenbaruna/Sortala/SortalaWidget/Assets.xcassets (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-linkAssetCatalog --thinned /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/thinned --thinned-dependencies /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist_thinned --unthinned /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_output/unthinned --unthinned-dependencies /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist_unthinned --output /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex --plist-output /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist
+
+ProcessInfoPlistFile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex/Info.plist /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/empty-SortalaWidgetExtension.plist (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-infoPlistUtility /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/empty-SortalaWidgetExtension.plist -producttype com.apple.product-type.app-extension -expandbuildsettings -format binary -platform iphonesimulator -additionalcontentfile /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/assetcatalog_generated_info.plist -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/SortalaWidgetExtension.appex/Info.plist
+
+SwiftDriver SortalaShare normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SortalaShare -Onone @/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -target arm64-apple-ios26.4-simulator -g -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -output-file-map /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare_const_extract_protocols.json -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-generated-files.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-own-target-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-target-headers.hmap -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-project-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources-normal/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-Swift.h -working-directory /Users/barenbaruna/Sortala -experimental-emit-module-separately -disable-cmo
+
+SwiftDriver SortalaWidgetExtension normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SortalaWidgetExtension -Onone @/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -target arm64-apple-ios26.4-simulator -g -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -output-file-map /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension_const_extract_protocols.json -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-generated-files.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-own-target-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-project-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-Swift.h -working-directory /Users/barenbaruna/Sortala -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ OrderParser.swift,\ ShareExtensionViewController.swift /Users/barenbaruna/Sortala/Sortala/Utilities/OrderParser.swift /Users/barenbaruna/Sortala/SortalaShare/ShareExtensionViewController.swift (in target 'SortalaShare' from project 'Sortala')
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/OrderParser.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/SortalaShare/ShareExtensionViewController.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ StatusHelpers.swift /Users/barenbaruna/Sortala/Sortala/Utilities/StatusHelpers.swift (in target 'SortalaShare' from project 'Sortala')
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/StatusHelpers.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ AdaptiveColors.swift,\ DateFormatting.swift /Users/barenbaruna/Sortala/Sortala/Utilities/AdaptiveColors.swift /Users/barenbaruna/Sortala/Sortala/Utilities/DateFormatting.swift (in target 'SortalaShare' from project 'Sortala')
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/AdaptiveColors.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/DateFormatting.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ ShareImportView.swift,\ SharedContainerFactory.swift /Users/barenbaruna/Sortala/SortalaShare/ShareImportView.swift /Users/barenbaruna/Sortala/Sortala/Utilities/SharedContainerFactory.swift (in target 'SortalaShare' from project 'Sortala')
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/SortalaShare/ShareImportView.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/SharedContainerFactory.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ OrderImportViewModel.swift /Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift (in target 'SortalaShare' from project 'Sortala')
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ Models.swift,\ NotificationManager.swift /Users/barenbaruna/Sortala/Sortala/Models/Models.swift /Users/barenbaruna/Sortala/Sortala/Services/NotificationManager.swift (in target 'SortalaShare' from project 'Sortala')
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Models/Models.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Services/NotificationManager.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ StringExtensions.swift /Users/barenbaruna/Sortala/Sortala/Utilities/StringExtensions.swift (in target 'SortalaShare' from project 'Sortala')
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/StringExtensions.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'SortalaShare' from project 'Sortala')
+SwiftCompile normal arm64 /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ SortalaShare (in target 'SortalaShare' from project 'Sortala')
+
+EmitSwiftModule normal arm64 (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ SortalaWidgetExtension (in target 'SortalaWidgetExtension' from project 'Sortala')
+Failed frontend command:
+/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swift-frontend -frontend -emit-module -experimental-skip-non-inlinable-function-bodies-without-types /Users/barenbaruna/Sortala/Sortala/App/SortalaApp.swift /Users/barenbaruna/Sortala/Sortala/Services/NotificationManager.swift /Users/barenbaruna/Sortala/Sortala/Utilities/OrderParser.swift /Users/barenbaruna/Sortala/SortalaWidget/Models/OrderWidgetEntry.swift /Users/barenbaruna/Sortala/SortalaWidget/Providers/OrderTimelineProvider.swift /Users/barenbaruna/Sortala/SortalaWidget/Services/OrderWidgetDataService.swift /Users/barenbaruna/Sortala/SortalaWidget/Views/LockScreenWidgetView.swift /Users/barenbaruna/Sortala/SortalaWidget/Views/MediumWidgetView.swift /Users/barenbaruna/Sortala/SortalaWidget/SortalaWidget.swift /Users/barenbaruna/Sortala/SortalaWidget/SortalaWidgetBundle.swift /Users/barenbaruna/Sortala/Sortala/Utilities/StringExtensions.swift /Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift /Users/barenbaruna/Sortala/Sortala/Views/Components/ImportSharedViews.swift /Users/barenbaruna/Sortala/Sortala/Views/Components/ItemRowEditor.swift /Users/barenbaruna/Sortala/Sortala/Views/Components/OrderRowView.swift /Users/barenbaruna/Sortala/Sortala/Views/Components/PrimaryCTAButtonStyle.swift /Users/barenbaruna/Sortala/Sortala/Views/Onboarding/AnimatedSplashView.swift /Users/barenbaruna/Sortala/Sortala/Views/Onboarding/GuidedTutorialView.swift /Users/barenbaruna/Sortala/Sortala/Views/Onboarding/OnboardingView.swift /Users/barenbaruna/Sortala/Sortala/Views/Onboarding/RootRouter.swift /Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift /Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift /Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift /Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/GeneratedAssetSymbols.swift -target arm64-apple-ios26.4-simulator -module-can-import-version DeveloperToolsSupport 23.40.26 23.40.26 -module-can-import-version SwiftUI 7.4.27.1 7.4.27 -module-can-import-version UIKit 9126.4.27.1 9126.4.27 -disable-cross-import-overlay-search -swift-module-cross-import SwiftData /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/SwiftData.framework/Modules/SwiftData.swiftcrossimport/CoreData.swiftoverlay -swift-module-cross-import SwiftData /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk/System/Library/Frameworks/SwiftData.framework/Modules/SwiftData.swiftcrossimport/SwiftUI.swiftoverlay -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libAppIntentsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#AppIntentsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libFoundationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#FoundationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libObservationMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#ObservationMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libPreviewsMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#PreviewsMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftDataMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftDataMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftMacros -load-resolved-plugin /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/swift/host/plugins/libSwiftUIMacros.dylib\#/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/swift-plugin-server\#SwiftUIMacros -disable-implicit-swift-modules -Xcc -fno-implicit-modules -Xcc -fno-implicit-module-maps -explicit-swift-module-map-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-dependencies-1.json -Xllvm -aarch64-use-tbi -enable-objc-interop -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -I /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -no-color-diagnostics -Xcc -fno-color-diagnostics -application-extension -enable-testing -g -debug-info-format\=dwarf -dwarf-version\=5 -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -swift-version 5 -Onone -D DEBUG -serialize-debugging-options -const-gather-protocols-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension_const_extract_protocols.json -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -enable-bare-slash-regex -empty-abi-descriptor -validate-clang-modules-once -clang-build-session-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -working-directory -Xcc /Users/barenbaruna/Sortala -enable-anonymous-context-mangled-names -file-compilation-dir /Users/barenbaruna/Sortala -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -Xcc -ivfsstatcache -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/swift-overrides.hmap -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-generated-files.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-own-target-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-all-target-headers.hmap -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/SortalaWidgetExtension-project-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources-normal/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/DerivedSources -Xcc -DDEBUG\=1 -no-auto-bridging-header-chaining -module-name SortalaWidgetExtension -frontend-parseable-output -disable-clang-spi -clang-target arm64-apple-ios26.4-simulator -target-sdk-version 26.4 -target-sdk-name iphonesimulator26.4 -in-process-plugin-server-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/libSwiftInProcPluginServer.dylib -emit-module-doc-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.swiftdoc -emit-module-source-info-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.swiftsourceinfo -emit-objc-header-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-Swift.h -serialize-diagnostics-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-primary-emit-module.dia -emit-dependencies-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension-primary-emit-module.d -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.swiftmodule -emit-abi-descriptor-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaWidgetExtension.build/Objects-normal/arm64/SortalaWidgetExtension.abi.json
+
+EmitSwiftModule normal arm64 (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+/Users/barenbaruna/Sortala/Sortala/Services/NotificationManager.swift:36:53: error: cannot find type 'Order' in scope
+    static func scheduleDeadlineReminder(for order: Order) async {
+                                                    ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Services/NotificationManager.swift:76:43: error: cannot find type 'Order' in scope
+    static func cancelReminder(for order: Order) {
+                                          ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Utilities/OrderParser.swift:44:22: error: cannot find type 'OrderSource' in scope
+    var orderSource: OrderSource
+                     ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Utilities/OrderParser.swift:191:50: error: cannot find type 'OrderSource' in scope
+    func detectOrderSource(from text: String) -> OrderSource? {
+                                                 ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/SortalaWidget/Models/OrderWidgetEntry.swift:82:17: error: cannot find type 'OrderStatus' in scope
+    var status: OrderStatus {
+                ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/SortalaWidget/Services/OrderWidgetDataService.swift:21:38: error: cannot find 'SharedContainerFactory' in scope
+    init(container: ModelContainer = SharedContainerFactory.makeContainer(readOnly: true)) {
+                                     ^~~~~~~~~~~~~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:273:31: error: cannot find 'Order' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                              ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:273:43: error: cannot find 'OrderItem' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                                          ^~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:266:23: error: cannot infer contextual base in reference to member 'whatsapp'
+        orderSource: .whatsapp,
+                     ~^~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:27: error: reference to member 'name' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                          ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:34: error: reference to member 'phone' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                 ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:42: error: reference to member 'address' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                         ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:52: error: reference to member 'items' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                                   ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:60: error: reference to member 'deadline' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                                           ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:71: error: reference to member 'notes' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                                                      ^
+/Users/barenbaruna/Sortala/Sortala/Views/ClipboardImportView.swift:269:79: error: reference to member 'source' cannot be resolved without a contextual type
+        detectedFields: [.name, .phone, .address, .items, .deadline, .notes, .source],
+                                                                              ^
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:379:31: error: cannot find 'Order' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                              ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:379:43: error: cannot find 'OrderItem' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                                          ^~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:37:19: error: cannot find 'Order' in scope
+    @Query(sort: \Order.deadline, order: .forward)
+                  ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:38:29: error: cannot find type 'Order' in scope
+    private var allOrders: [Order]
+                            ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift:188:17: error: cannot find 'Order' in scope
+    let order = Order(
+                ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift:199:27: error: cannot find 'Order' in scope
+    .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                          ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift:199:39: error: cannot find 'OrderItem' in scope
+    .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                                      ^~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift:193:23: error: cannot infer contextual base in reference to member 'whatsapp'
+        orderSource: .whatsapp,
+                     ~^~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:362:31: error: cannot find 'Order' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                              ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:362:43: error: cannot find 'OrderItem' in scope
+        .modelContainer(for: [Order.self, OrderItem.self], inMemory: true)
+                                          ^~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:15:24: error: cannot find type 'Order' in scope
+    var existingOrder: Order? = nil
+                       ^~~~~
+/Users/barenbaruna/Sortala/Sortala/App/SortalaApp.swift:12:1: error: 'main' attribute can only apply to one type in a module
+@main
+^
+/Users/barenbaruna/Sortala/SortalaWidget/SortalaWidgetBundle.swift:11:1: error: 'main' attribute can only apply to one type in a module
+@main
+^
+/Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift:34:22: error: cannot find type 'OrderSource' in scope
+    var orderSource: OrderSource
+                     ^~~~~~~~~~~
+@__swiftmacro_22SortalaWidgetExtension20OrderImportViewModelC11orderSource18ObservationTrackedfMp_.swift:2:28: error: cannot find type 'OrderSource' in scope
+private  var _orderSource: OrderSource
+                           ^~~~~~~~~~~
+@__swiftmacro_22SortalaWidgetExtension20OrderImportViewModelC11orderSource10ObservablefMr5_.swift:1:1: note: in expansion of macro 'ObservationTracked' on property 'orderSource' here
+@ObservationTracked
+^
+@__swiftmacro_22SortalaWidgetExtension20OrderImportViewModelC11orderSource10ObservablefMr5_.swift:1:1: note: in expansion of macro 'ObservationTracked' on property 'orderSource' here
+@ObservationTracked
+^
+/Users/barenbaruna/Sortala/Sortala/Views/Components/ItemRowEditor.swift:16:26: error: cannot find type 'OrderItem' in scope
+    init(from orderItem: OrderItem) {
+                         ^~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/Components/OrderRowView.swift:11:16: error: cannot find type 'Order' in scope
+    let order: Order
+               ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:20:25: error: cannot find type 'OrderStatus' in scope
+    var matchingStatus: OrderStatus? {
+                        ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:45:39: error: cannot find type 'Order' in scope
+    @State private var orderToDelete: Order?
+                                      ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:47:40: error: cannot find type 'Order' in scope
+    @State private var orderToAdvance: Order?
+                                       ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:63:34: error: cannot find type 'Order' in scope
+    private var filteredOrders: [Order] {
+                                 ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:83:55: error: cannot find type 'Order' in scope
+    private var groupedOrders: [(date: Date, orders: [Order])] {
+                                                      ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:344:42: error: cannot find type 'Order' in scope
+    private func advanceStatus(of order: Order, to next: OrderStatus) {
+                                         ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:344:58: error: cannot find type 'OrderStatus' in scope
+    private func advanceStatus(of order: Order, to next: OrderStatus) {
+                                                         ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/HomeView.swift:366:43: error: cannot find type 'Order' in scope
+    private func rowBackground(for order: Order) -> Color {
+                                          ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderDetailView.swift:13:26: error: cannot find type 'Order' in scope
+    @Bindable var order: Order
+                         ^~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:25:37: error: cannot find type 'OrderSource' in scope
+    @State private var orderSource: OrderSource = .whatsapp
+                                    ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:27:32: error: cannot find type 'OrderStatus' in scope
+    @State private var status: OrderStatus = .baru
+                               ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:48:26: error: cannot find type 'OrderSource' in scope
+        let orderSource: OrderSource
+                         ^~~~~~~~~~~
+/Users/barenbaruna/Sortala/Sortala/Views/OrderFormView.swift:49:21: error: cannot find type 'OrderStatus' in scope
+        let status: OrderStatus
+                    ^~~~~~~~~~~
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for SortalaShare (in target 'SortalaShare' from project 'Sortala')
+
+SwiftDriver\ Compilation\ Requirements SortalaShare normal arm64 com.apple.xcode.tools.swift.compiler (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name SortalaShare -Onone @/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.SwiftFileList -DDEBUG -enable-bare-slash-regex -enable-upcoming-feature DisableOutwardActorInference -enable-upcoming-feature InferSendableFromCaptures -enable-upcoming-feature GlobalActorIsolatedTypesUsability -enable-upcoming-feature MemberImportVisibility -enable-upcoming-feature InferIsolatedConformances -enable-upcoming-feature NonisolatedNonsendingByDefault -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneSimulator.platform/Developer/SDKs/iPhoneSimulator26.4.sdk -target arm64-apple-ios26.4-simulator -g -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -Xfrontend -serialize-debugging-options -application-extension -enable-testing -index-store-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Index.noindex/DataStore -Xcc -D_LIBCPP_HARDENING_MODE\=_LIBCPP_HARDENING_MODE_DEBUG -swift-version 5 -I /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -F /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator -emit-localized-strings -emit-localized-strings-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64 -c -j10 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/SDKStatCaches.noindex/iphonesimulator26.4-23E252-686eebb5dc1d8ecb277353a59184f4aa.sdkstatcache -output-file-map /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-OutputFileMap.json -use-frontend-parseable-output -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -sdk-module-cache-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex -serialize-diagnostics -emit-dependencies -emit-module -emit-module-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare.swiftmodule -validate-clang-modules-once -clang-build-session-file /Users/barenbaruna/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/Session.modulevalidation -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/swift-overrides.hmap -emit-const-values -Xfrontend -const-gather-protocols-file -Xfrontend /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare_const_extract_protocols.json -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-generated-files.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-own-target-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-all-target-headers.hmap -Xcc -iquote -Xcc /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/SortalaShare-project-headers.hmap -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Products/Debug-iphonesimulator/include -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources-normal/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/arm64 -Xcc -I/Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources -Xcc -DDEBUG\=1 -emit-objc-header -emit-objc-header-path /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-Swift.h -working-directory /Users/barenbaruna/Sortala -experimental-emit-module-separately -disable-cmo
+
+SwiftCompile normal arm64 Compiling\ SortalaWidgetBundle.swift,\ StringExtensions.swift,\ OrderImportViewModel.swift /Users/barenbaruna/Sortala/SortalaWidget/SortalaWidgetBundle.swift /Users/barenbaruna/Sortala/Sortala/Utilities/StringExtensions.swift /Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift (in target 'SortalaWidgetExtension' from project 'Sortala')
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/SortalaWidget/SortalaWidgetBundle.swift (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/Utilities/StringExtensions.swift (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftCompile normal arm64 /Users/barenbaruna/Sortala/Sortala/ViewModels/OrderImportViewModel.swift (in target 'SortalaWidgetExtension' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    
+
+SwiftMergeGeneratedHeaders /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/SortalaShare-Swift.h /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-Swift.h (in target 'SortalaShare' from project 'Sortala')
+    cd /Users/barenbaruna/Sortala
+    builtin-swiftHeaderTool -arch arm64 /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/Objects-normal/arm64/SortalaShare-Swift.h -o /Users/barenbaruna/Library/Developer/Xcode/DerivedData/Sortala-gktelvbpaytlqsfiqvzmlodlixfd/Build/Intermediates.noindex/Sortala.build/Debug-iphonesimulator/SortalaShare.build/DerivedSources/SortalaShare-Swift.h
+
+** BUILD FAILED **
+
+
+The following build commands failed:
+	SwiftEmitModule normal arm64 Emitting\ module\ for\ SortalaWidgetExtension (in target 'SortalaWidgetExtension' from project 'Sortala')
+	EmitSwiftModule normal arm64 (in target 'SortalaWidgetExtension' from project 'Sortala')
+	Building project Sortala with scheme SortalaWidgetExtension
+(3 failures)

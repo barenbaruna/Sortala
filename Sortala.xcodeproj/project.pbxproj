@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		A8B841DE2F9A2E36008DB5B2 /* SortalaShare.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A8B841D42F9A2E36008DB5B2 /* SortalaShare.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A8CC449C2F9E1BB800ADF914 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CC449B2F9E1BB700ADF914 /* WidgetKit.framework */; };
+		A8CC449E2F9E1BB800ADF914 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8CC449D2F9E1BB800ADF914 /* SwiftUI.framework */; };
+		A8CC44A92F9E1BB800ADF914 /* SortalaWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A8CC44992F9E1BB700ADF914 /* SortalaWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -17,6 +20,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = A8B841D32F9A2E36008DB5B2;
 			remoteInfo = SortalaShare;
+		};
+		A8CC44A72F9E1BB800ADF914 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A889393C2F8B8ACE00332712 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A8CC44982F9E1BB700ADF914;
+			remoteInfo = SortalaWidgetExtension;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -28,6 +38,7 @@
 			dstSubfolderSpec = 13;
 			files = (
 				A8B841DE2F9A2E36008DB5B2 /* SortalaShare.appex in Embed Foundation Extensions */,
+				A8CC44A92F9E1BB800ADF914 /* SortalaWidgetExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -37,6 +48,10 @@
 /* Begin PBXFileReference section */
 		A88939442F8B8ACE00332712 /* Sortala.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Sortala.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A8B841D42F9A2E36008DB5B2 /* SortalaShare.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SortalaShare.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8CC44992F9E1BB700ADF914 /* SortalaWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SortalaWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A8CC449B2F9E1BB700ADF914 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A8CC449D2F9E1BB800ADF914 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A8CC44AE2F9E1C0800ADF914 /* SortalaWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SortalaWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -64,6 +79,29 @@
 			);
 			target = A8B841D32F9A2E36008DB5B2 /* SortalaShare */;
 		};
+		A8CC44B12F9E1D0000ADF914 /* Exceptions for "Sortala" folder in "SortalaWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				App/SortalaApp.swift,
+				Services/NotificationManager.swift,
+				Utilities/OrderParser.swift,
+				Utilities/StringExtensions.swift,
+				ViewModels/OrderImportViewModel.swift,
+				Views/ClipboardImportView.swift,
+				Views/Components/ImportSharedViews.swift,
+				Views/Components/ItemRowEditor.swift,
+				Views/Components/OrderRowView.swift,
+				Views/Components/PrimaryCTAButtonStyle.swift,
+				Views/HomeView.swift,
+				Views/Onboarding/AnimatedSplashView.swift,
+				Views/Onboarding/GuidedTutorialView.swift,
+				Views/Onboarding/OnboardingView.swift,
+				Views/Onboarding/RootRouter.swift,
+				Views/OrderDetailView.swift,
+				Views/OrderFormView.swift,
+			);
+			target = A8CC44982F9E1BB700ADF914 /* SortalaWidgetExtension */;
+		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -71,6 +109,7 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				A8C100012F9A0000008DB5B2 /* Exceptions for "Sortala" folder in "SortalaShare" target */,
+				A8CC44B12F9E1D0000ADF914 /* Exceptions for "Sortala" folder in "SortalaWidgetExtension" target */,
 			);
 			path = Sortala;
 			sourceTree = "<group>";
@@ -81,6 +120,11 @@
 				A8B841DF2F9A2E36008DB5B2 /* Exceptions for "SortalaShare" folder in "SortalaShare" target */,
 			);
 			path = SortalaShare;
+			sourceTree = "<group>";
+		};
+		A8CC449F2F9E1BB800ADF914 /* SortalaWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = SortalaWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -100,14 +144,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A8CC44962F9E1BB700ADF914 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A8CC449E2F9E1BB800ADF914 /* SwiftUI.framework in Frameworks */,
+				A8CC449C2F9E1BB800ADF914 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		A889393B2F8B8ACE00332712 = {
 			isa = PBXGroup;
 			children = (
+				A8CC44AE2F9E1C0800ADF914 /* SortalaWidgetExtension.entitlements */,
 				A88939462F8B8ACE00332712 /* Sortala */,
 				A8B841D52F9A2E36008DB5B2 /* SortalaShare */,
+				A8CC449F2F9E1BB800ADF914 /* SortalaWidget */,
+				A8CC449A2F9E1BB700ADF914 /* Frameworks */,
 				A88939452F8B8ACE00332712 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,8 +173,18 @@
 			children = (
 				A88939442F8B8ACE00332712 /* Sortala.app */,
 				A8B841D42F9A2E36008DB5B2 /* SortalaShare.appex */,
+				A8CC44992F9E1BB700ADF914 /* SortalaWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A8CC449A2F9E1BB700ADF914 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A8CC449B2F9E1BB700ADF914 /* WidgetKit.framework */,
+				A8CC449D2F9E1BB800ADF914 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,6 +203,7 @@
 			);
 			dependencies = (
 				A8B841DD2F9A2E36008DB5B2 /* PBXTargetDependency */,
+				A8CC44A82F9E1BB800ADF914 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				A88939462F8B8ACE00332712 /* Sortala */,
@@ -171,6 +238,29 @@
 			productReference = A8B841D42F9A2E36008DB5B2 /* SortalaShare.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		A8CC44982F9E1BB700ADF914 /* SortalaWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A8CC44AD2F9E1BB800ADF914 /* Build configuration list for PBXNativeTarget "SortalaWidgetExtension" */;
+			buildPhases = (
+				A8CC44952F9E1BB700ADF914 /* Sources */,
+				A8CC44962F9E1BB700ADF914 /* Frameworks */,
+				A8CC44972F9E1BB700ADF914 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				A88939462F8B8ACE00332712 /* Sortala */,
+				A8CC449F2F9E1BB800ADF914 /* SortalaWidget */,
+			);
+			name = SortalaWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = SortalaWidgetExtension;
+			productReference = A8CC44992F9E1BB700ADF914 /* SortalaWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -185,6 +275,9 @@
 						CreatedOnToolsVersion = 26.4;
 					};
 					A8B841D32F9A2E36008DB5B2 = {
+						CreatedOnToolsVersion = 26.4.1;
+					};
+					A8CC44982F9E1BB700ADF914 = {
 						CreatedOnToolsVersion = 26.4.1;
 					};
 				};
@@ -205,6 +298,7 @@
 			targets = (
 				A88939432F8B8ACE00332712 /* Sortala */,
 				A8B841D32F9A2E36008DB5B2 /* SortalaShare */,
+				A8CC44982F9E1BB700ADF914 /* SortalaWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -218,6 +312,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		A8B841D22F9A2E36008DB5B2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A8CC44972F9E1BB700ADF914 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -241,6 +342,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A8CC44952F9E1BB700ADF914 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -248,6 +356,11 @@
 			isa = PBXTargetDependency;
 			target = A8B841D32F9A2E36008DB5B2 /* SortalaShare */;
 			targetProxy = A8B841DC2F9A2E36008DB5B2 /* PBXContainerItemProxy */;
+		};
+		A8CC44A82F9E1BB800ADF914 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A8CC44982F9E1BB700ADF914 /* SortalaWidgetExtension */;
+			targetProxy = A8CC44A72F9E1BB800ADF914 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -384,6 +497,7 @@
 				DEVELOPMENT_TEAM = V36823696A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Sortala-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen = "<dict><key>UIImageName</key><string>SplashScreen</string></dict>";
@@ -418,6 +532,7 @@
 				DEVELOPMENT_TEAM = V36823696A;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Sortala-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen = "<dict><key>UIImageName</key><string>SplashScreen</string></dict>";
@@ -499,6 +614,68 @@
 			};
 			name = Release;
 		};
+		A8CC44AA2F9E1BB800ADF914 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SortalaWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V36823696A;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SortalaWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SortalaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barenbaruna.Sortala.SortalaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A8CC44AB2F9E1BB800ADF914 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = SortalaWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = V36823696A;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "SortalaWidget-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = SortalaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.barenbaruna.Sortala.SortalaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -525,6 +702,15 @@
 			buildConfigurations = (
 				A8B841E12F9A2E36008DB5B2 /* Debug */,
 				A8B841E22F9A2E36008DB5B2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A8CC44AD2F9E1BB800ADF914 /* Build configuration list for PBXNativeTarget "SortalaWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A8CC44AA2F9E1BB800ADF914 /* Debug */,
+				A8CC44AB2F9E1BB800ADF914 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

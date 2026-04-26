@@ -193,11 +193,19 @@ final class OrderImportViewModel {
         }
 
         context.insert(newOrder)
-        UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+        do {
+            try context.save()
+        } catch {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return false
+        }
 
         _ = await NotificationManager.requestPermission()
         await NotificationManager.scheduleDeadlineReminder(for: newOrder)
         await NotificationManager.updateEveningRadar(modelContext: context)
+        SortalaWidgetReloader.reloadTimelines()
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
 
         return true
     }

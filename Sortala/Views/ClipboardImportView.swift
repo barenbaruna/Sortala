@@ -24,6 +24,7 @@ struct ClipboardImportView: View {
     @Environment(\.dismiss) private var dismiss
 
     @State var viewModel: OrderImportViewModel
+    @State private var showSaveError = false
 
     init(parsedOrder: ParsedOrder) {
         _viewModel = State(initialValue: OrderImportViewModel(parsedOrder: parsedOrder))
@@ -53,6 +54,11 @@ struct ClipboardImportView: View {
             } message: {
                 Text("Data yang sudah kamu edit tidak akan disimpan.")
             }
+            .alert("Tidak Dapat Menyimpan", isPresented: $showSaveError) {
+                Button("OK") {}
+            } message: {
+                Text("Pesanan belum disimpan. Coba lagi sebelum menutup halaman ini.")
+            }
         }
         .interactiveDismissDisabled(viewModel.hasEdited)
     }
@@ -70,7 +76,11 @@ struct ClipboardImportView: View {
         ToolbarItem(placement: .confirmationAction) {
             Button(role: .confirm) {
                 Task {
-                    if await viewModel.saveOrder(context: modelContext) { dismiss() }
+                    if await viewModel.saveOrder(context: modelContext) {
+                        dismiss()
+                    } else {
+                        showSaveError = true
+                    }
                 }
             }
             .disabled(!viewModel.isFormValid)

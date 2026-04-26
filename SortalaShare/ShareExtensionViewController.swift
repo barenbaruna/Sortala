@@ -76,10 +76,7 @@ final class ShareExtensionViewController: UIViewController {
             return
         }
 
-        guard let container = makeSharedContainer() else {
-            presentErrorState()
-            return
-        }
+        let container = SharedContainerFactory.makeContainer()
 
         let parsed = OrderParser.shared.parse(rawText)
         let viewModel = OrderImportViewModel(parsedOrder: parsed)
@@ -170,23 +167,4 @@ final class ShareExtensionViewController: UIViewController {
         hosting.didMove(toParent: self)
     }
 
-    // MARK: - Shared Container
-
-    /// Builds a `ModelContainer` pointing to the App Group SQLite store.
-    /// Returns `nil` (non-fatal) if the group container is unavailable.
-    private func makeSharedContainer() -> ModelContainer? {
-        let groupID = "group.com.barenbaruna.Sortala"
-        guard let groupURL = FileManager.default.containerURL(
-            forSecurityApplicationGroupIdentifier: groupID
-        ) else { return nil }
-
-        let storeURL = groupURL.appendingPathComponent("Sortala.sqlite")
-        let schema = Schema([Order.self, OrderItem.self])
-        do {
-            let config = ModelConfiguration(url: storeURL)
-            return try ModelContainer(for: schema, configurations: [config])
-        } catch {
-            return nil
-        }
-    }
 }
