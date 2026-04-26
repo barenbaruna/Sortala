@@ -49,9 +49,6 @@ struct HomeView: View {
     @State private var orderToAdvance: Order?
     @State private var showAdvanceConfirm = false
     @State private var navigationPath: [UUID] = []
-    @State private var persistenceAlertTitle = ""
-    @State private var persistenceAlertMessage = ""
-    @State private var showPersistenceAlert = false
 
     /// Namespace for zoom navigation transitions (Apple Wishlist pattern).
     @Namespace private var namespace
@@ -175,16 +172,11 @@ struct HomeView: View {
                         withAnimation {
                             modelContext.delete(order)
                         }
-                        do {
-                            try modelContext.save()
-                            NotificationManager.cancelReminder(for: orderID)
-                            Task {
-                                await NotificationManager.updateEveningRadar(modelContext: modelContext)
-                                SortalaWidgetReloader.reloadTimelines()
-                            }
-                        } catch {
-                            modelContext.rollback()
-                            showPersistenceFailure("Pesanan belum terhapus. Coba lagi.")
+                        try? modelContext.save()
+                        NotificationManager.cancelReminder(for: orderID)
+                        Task {
+                            await NotificationManager.updateEveningRadar(modelContext: modelContext)
+                            SortalaWidgetReloader.reloadTimelines()
                         }
                     }
                     orderToDelete = nil
@@ -208,11 +200,6 @@ struct HomeView: View {
                 if let order = orderToAdvance, let next = order.status.nextStatus {
                     Text("Status \(order.customerName) akan diubah dari \(order.status.rawValue) ke \(next.rawValue).")
                 }
-            }
-            .alert(persistenceAlertTitle, isPresented: $showPersistenceAlert) {
-                Button("OK") {}
-            } message: {
-                Text(persistenceAlertMessage)
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: UIPasteboard.changedNotification)) { _ in
@@ -389,15 +376,7 @@ struct HomeView: View {
     /// Advances an order's status and handles notification + haptic side-effects.
     private func advanceStatus(of order: Order, to next: OrderStatus) {
         withAnimation { order.status = next }
-
-        do {
-            try modelContext.save()
-        } catch {
-            modelContext.rollback()
-            showPersistenceFailure("Status belum diperbarui. Coba lagi.")
-            orderToAdvance = nil
-            return
-        }
+        try? modelContext.save()
 
         if next == .selesai {
             NotificationManager.cancelReminder(for: order)
@@ -423,13 +402,6 @@ struct HomeView: View {
             showAddOrder = true
             shouldPresentAddOrder = false
         }
-    }
-
-    private func showPersistenceFailure(_ message: String) {
-        persistenceAlertTitle = "Tidak Dapat Menyimpan"
-        persistenceAlertMessage = message
-        showPersistenceAlert = true
-        UINotificationFeedbackGenerator().notificationOccurred(.error)
     }
     
     private func sectionHeaderColor(for date: Date) -> Color {

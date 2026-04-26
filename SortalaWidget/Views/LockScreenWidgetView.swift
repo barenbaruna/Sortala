@@ -39,46 +39,31 @@ struct LockScreenEntryView: View {
 /// Line 2: Overdue warning (if any)
 /// Line 3: Next deadline time
 struct LockScreenRectangularView: View {
-    @Environment(\.widgetRenderingMode) private var widgetRenderingMode
-
     let entry: OrderWidgetEntry
 
-    private var warningColor: Color {
-        widgetRenderingMode == .fullColor ? .red : .primary
-    }
-
     var body: some View {
-        VStack(alignment: .leading, spacing: 2) {
-            // Line 1: count
-            HStack(spacing: 4) {
-                Image(systemName: "shippingbox.fill")
-                    .font(.caption)
-                    .widgetAccentable()
-                Text("\(entry.dueTodayCount) pesanan hari ini")
+        HStack(alignment: .center, spacing: 6) {
+            // Left: Big number
+            Text("\(entry.attentionCount)")
+                .font(.system(size: 34, weight: .bold, design: .rounded))
+                .widgetAccentable()
+            
+            // Right: Details
+            VStack(alignment: .leading, spacing: 1) {
+                Text("Prioritas")
                     .font(.headline)
                     .widgetAccentable()
-            }
-
-            // Line 2: overdue or all clear
-            if entry.overdueCount > 0 {
-                HStack(spacing: 4) {
-                    Image(systemName: "exclamationmark.triangle.fill")
-                    Text("\(entry.overdueCount) terlambat")
+                
+                if entry.overdueCount > 0 {
+                    Text("\(entry.overdueCount) telat")
+                        .font(.caption)
+                } else if let next = entry.nextDeadline {
+                    Text(next.timeFormatted)
+                        .font(.caption)
+                } else {
+                    Text("Aman ✓")
+                        .font(.caption)
                 }
-                .font(.caption)
-                .foregroundStyle(warningColor)
-                .widgetAccentable()
-            } else if entry.activeCount > 0 {
-                Label("Semua tepat waktu", systemImage: "checkmark.circle.fill")
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
-            }
-
-            // Line 3: next deadline
-            if let next = entry.nextDeadline {
-                Text("Selanjutnya: \(next.relativeFormatted) · \(next.timeFormatted)")
-                    .font(.caption2)
-                    .foregroundStyle(.secondary)
             }
         }
         .containerBackground(for: .widget) {
@@ -97,17 +82,13 @@ struct LockScreenCircularView: View {
     let entry: OrderWidgetEntry
 
     var body: some View {
-        VStack(spacing: 0) {
-            Text("\(entry.activeCount)")
-                .font(.title2)
-                .fontWeight(.bold)
-                .fontDesign(.rounded)
-                .widgetAccentable()
-
+        Gauge(value: Double(entry.attentionCount), in: 0...Double(max(1, entry.activeCount))) {
             Image(systemName: "shippingbox.fill")
-                .font(.caption)
-                .widgetAccentable()
+        } currentValueLabel: {
+            Text("\(entry.attentionCount)")
         }
+        .gaugeStyle(.accessoryCircular)
+        .widgetAccentable()
         .containerBackground(for: .widget) {
             AccessoryWidgetBackground()
         }

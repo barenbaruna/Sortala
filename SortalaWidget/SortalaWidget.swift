@@ -65,8 +65,9 @@ struct SmallWidgetView: View {
                 .contentTransition(.numericText())
                 .widgetAccentable()
 
-            Text("butuh perhatian")
+            Text("perlu diproses")
                 .font(.caption)
+                .fontWeight(.medium)
                 .foregroundStyle(.secondary)
 
             // Overdue warning (conditional)
